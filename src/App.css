@@ -1,0 +1,42 @@
+/* src/App.css */
+
+/* Schoolbell font style */
+.cute-font, .schoolbell-regular {
+  font-family: "Schoolbell", cursive !important;
+  font-weight: 400;
+  font-style: normal;
+}
+
+/* Custom animations */
+@keyframes fadeInUp {
+  from {
+    opacity: 0;
+    transform: translateY(30px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+.animate-fadeInUp {
+  animation: fadeInUp 1s ease-out forwards;
+}
+
+/* Responsive font sizes */
+@media (max-width: 640px) {
+  .text-4xl { font-size: 2rem; }
+  .text-6xl { font-size: 3rem; }
+  .text-8xl { font-size: 4rem; }
+}
+
+/* Ensure smooth transitions */
+* {
+  transition-property: color, background-color, border-color, text-decoration-color, fill, stroke, opacity, box-shadow, transform, filter, backdrop-filter;
+  transition-timing-function: cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+/* Tailwind base reset */
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
