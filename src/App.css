@@ -36,7 +36,14 @@
   transition-timing-function: cubic-bezier(0.4, 0, 0.2, 1);
 }
 
+@keyframes scribble {
+  to {
+    stroke-dashoffset: 0;
+  }
+}
+
 /* Tailwind base reset */
 @tailwind base;
 @tailwind components;
 @tailwind utilities;
+

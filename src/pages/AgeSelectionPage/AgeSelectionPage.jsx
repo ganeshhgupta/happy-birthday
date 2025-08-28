@@ -86,7 +86,11 @@ const AgeSelectionPage = ({ onNext, onBack }) => {
     <div className="min-h-screen bg-gradient-to-br from-black via-gray-900 to-gray-800 flex flex-col items-center justify-center relative overflow-hidden">
       
       <BackButton onClick={handleBack} theme="dark" />
-      <BackgroundDoodles />
+      
+      {/* Background Doodles with same styling as LandingPage */}
+      <div className="absolute inset-0 z-5" style={{ opacity: 0.8 }}>
+        <BackgroundDoodles />
+      </div>
 
       <div className="text-center z-10 px-4 max-w-5xl">
         

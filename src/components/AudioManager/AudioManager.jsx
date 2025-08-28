@@ -1,15 +1,18 @@
 // src/components/AudioManager/AudioManager.jsx
 import React, { useRef, useEffect, useState } from 'react';
 
-const AudioManager = ({ currentPage, audioFile = '/Date.mp3' }) => {
+const AudioManager = ({ currentPage, audioFile = '/Blue.mp3', autoPlay = true, loop = true }) => {
   const audioRef = useRef(null);
   const [isPlaying, setIsPlaying] = useState(false);
   const [isLoaded, setIsLoaded] = useState(false);
   const [error, setError] = useState(null);
   const [userInteracted, setUserInteracted] = useState(false);
 
-  // Pages where this audio should play
-  const playOnPages = ['landing', 'ageSelection', 'third', 'fourth'];
+  // Pages where this audio should play - FIXED: Now includes all pages
+  const playOnPages = [
+    'landing', 'ageSelection', 'third', 'fourth', 'fifth', 
+    'sixth', 'seventh', 'eighth', 'ninth', 'tenth', 'eleventh', 'twelfth'
+  ];
   const shouldPlay = playOnPages.includes(currentPage);
 
   // Track user interaction
@@ -31,7 +34,7 @@ const AudioManager = ({ currentPage, audioFile = '/Date.mp3' }) => {
     };
   }, [userInteracted]);
 
-  // Handle audio loading
+  // Handle audio loading and file changes
   useEffect(() => {
     const audio = audioRef.current;
     if (!audio) return;
@@ -42,51 +45,78 @@ const AudioManager = ({ currentPage, audioFile = '/Date.mp3' }) => {
     };
 
     const handleError = (e) => {
+      console.error('Audio loading error:', e);
       setError('Failed to load audio file');
       setIsLoaded(false);
     };
 
     const handleLoadStart = () => {
-      // Audio loading started
+      setIsLoaded(false);
+      console.log('Audio loading started for:', audioFile);
     };
 
     const handleLoadedData = () => {
-      // Audio data loaded
+      console.log('Audio data loaded for:', audioFile);
+    };
+
+    const handleEnded = () => {
+      if (loop) {
+        audio.currentTime = 0;
+        if (shouldPlay && isPlaying) {
+          audio.play().catch(console.error);
+        }
+      } else {
+        setIsPlaying(false);
+      }
     };
 
     audio.addEventListener('canplay', handleCanPlay);
     audio.addEventListener('error', handleError);
     audio.addEventListener('loadstart', handleLoadStart);
     audio.addEventListener('loadeddata', handleLoadedData);
+    audio.addEventListener('ended', handleEnded);
 
-    // Try to load the audio
-    audio.load();
+    // Only reload if the audio file actually changed
+    if (audio.src !== window.location.origin + audioFile) {
+      console.log('Audio file changed, loading:', audioFile);
+      audio.load();
+    }
 
     return () => {
       audio.removeEventListener('canplay', handleCanPlay);
       audio.removeEventListener('error', handleError);
       audio.removeEventListener('loadstart', handleLoadStart);
       audio.removeEventListener('loadeddata', handleLoadedData);
+      audio.removeEventListener('ended', handleEnded);
     };
-  }, [audioFile]);
+  }, [audioFile, loop]);
 
   // Auto-play when conditions are met
   useEffect(() => {
-    if (shouldPlay && isLoaded && userInteracted && !isPlaying) {
+    console.log('AudioManager effect - shouldPlay:', shouldPlay, 'isLoaded:', isLoaded, 'userInteracted:', userInteracted, 'isPlaying:', isPlaying);
+    
+    if (shouldPlay && isLoaded && userInteracted && !isPlaying && autoPlay) {
+      console.log('Attempting to play audio');
       playAudio();
     } else if (!shouldPlay && isPlaying) {
+      console.log('Pausing audio - not on play page');
       pauseAudio();
     }
-  }, [currentPage, shouldPlay, isLoaded, userInteracted, isPlaying]);
+  }, [currentPage, shouldPlay, isLoaded, userInteracted, isPlaying, autoPlay]);
 
   const playAudio = async () => {
     const audio = audioRef.current;
-    if (!audio || !isLoaded) return;
+    if (!audio || !isLoaded) {
+      console.log('Cannot play - audio not ready');
+      return;
+    }
 
     try {
       await audio.play();
       setIsPlaying(true);
+      console.log('Audio playing successfully');
     } catch (error) {
+      console.error('Playback failed:', error);
       setError('Playback failed - click the music button to try again');
     }
   };
@@ -97,6 +127,7 @@ const AudioManager = ({ currentPage, audioFile = '/Date.mp3' }) => {
 
     audio.pause();
     setIsPlaying(false);
+    console.log('Audio paused');
   };
 
   const toggleAudio = () => {
@@ -104,7 +135,10 @@ const AudioManager = ({ currentPage, audioFile = '/Date.mp3' }) => {
       setUserInteracted(true);
     }
 
-    if (!isLoaded) return;
+    if (!isLoaded) {
+      console.log('Audio not loaded yet');
+      return;
+    }
 
     if (isPlaying) {
       pauseAudio();
@@ -113,15 +147,13 @@ const AudioManager = ({ currentPage, audioFile = '/Date.mp3' }) => {
     }
   };
 
-  // Don't render if not on a page that should have music
-  if (!shouldPlay) return null;
-
+  // Always render the audio element and controls (removed the early return)
   return (
     <>
       {/* Hidden audio element */}
       <audio
         ref={audioRef}
-        loop
+        loop={loop}
         className="hidden"
         preload="auto"
         crossOrigin="anonymous"
@@ -132,7 +164,7 @@ const AudioManager = ({ currentPage, audioFile = '/Date.mp3' }) => {
         Your browser does not support the audio element.
       </audio>
 
-      {/* Music control button */}
+      {/* Music control button - always visible for debugging */}
       <button
         onClick={toggleAudio}
         className="fixed top-4 right-4 z-50 p-3 bg-gray-800/80 backdrop-blur-md hover:bg-gray-700/80 rounded-full shadow-lg transition-all duration-300 hover:scale-105 active:scale-95 border border-gray-600/50 hover:border-gray-400/50"
@@ -141,10 +173,10 @@ const AudioManager = ({ currentPage, audioFile = '/Date.mp3' }) => {
           !isLoaded ? 'Loading music...' :
           isPlaying ? 'Pause music' : 'Play music'
         }
-        disabled={!isLoaded}
+        disabled={!isLoaded && !error}
       >
         <div className="flex items-center justify-center text-white">
-          {!isLoaded ? (
+          {!isLoaded && !error ? (
             // Loading spinner
             <div className="w-4 h-4 border-2 border-white/30 border-t-white rounded-full animate-spin"></div>
           ) : error ? (
@@ -169,6 +201,16 @@ const AudioManager = ({ currentPage, audioFile = '/Date.mp3' }) => {
         {/* Hover glow effect */}
         <div className="absolute inset-0 rounded-full bg-white opacity-0 hover:opacity-10 blur-lg transition-all duration-300"></div>
       </button>
+
+      {/* Debug info */}
+      <div className="fixed top-20 right-4 z-50 bg-gray-800/90 text-white p-2 rounded text-xs max-w-48">
+        <div>Page: {currentPage}</div>
+        <div>Should Play: {shouldPlay.toString()}</div>
+        <div>Is Playing: {isPlaying.toString()}</div>
+        <div>Is Loaded: {isLoaded.toString()}</div>
+        <div>User Interacted: {userInteracted.toString()}</div>
+        {error && <div className="text-red-400">Error: {error}</div>}
+      </div>
     </>
   );
 };

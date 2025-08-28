@@ -1,12 +1,12 @@
- 
 {
   "name": "hapy-birthday",
   "version": "1.0.0",
   "private": true,
   "dependencies": {
+    "lucide-react": "^0.263.1",
+    "particles.js": "^2.0.0",
     "react": "^18.2.0",
     "react-dom": "^18.2.0",
-    "lucide-react": "^0.263.1",
     "web-vitals": "^2.1.4"
   },
   "devDependencies": {
