@@ -53,7 +53,7 @@ const SeventhPage = ({ onBack, onNext }) => {
             {/* Left side - Image */}
             <div className="flex-1 flex items-center justify-end">
               <img 
-                src="/1.png"
+                src="./1.png"
                 alt="Character"
                 style={{
                   width: 'min(450px, 40vw)',
@@ -119,7 +119,7 @@ const SeventhPage = ({ onBack, onNext }) => {
             {/* Left side - Image with scribble reveal */}
             <div className="flex-1 flex items-center justify-end">
               <ScribbleReveal
-                src="/1.png"
+                src="./1.png"
                 width={450}
                 height={450}
                 duration={4}

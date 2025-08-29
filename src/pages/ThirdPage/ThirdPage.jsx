@@ -3,28 +3,19 @@ import React, { useState, useEffect } from 'react';
 import BackButton from '../../components/BackButton/BackButton.jsx';
 
 const ThirdPage = ({ selectedAge, onBack, onNext }) => {
-  const [currentStep, setCurrentStep] = useState(0); // 0 = blank, 1-4 = text steps
+  const [textStep, setTextStep] = useState(0);
   const [fadeOut, setFadeOut] = useState(false);
 
   useEffect(() => {
-    // Reset and start the sequential animation
-    setCurrentStep(0);
+    // Reset animation and start text sequence
+    setTextStep(0);
     
+    // Text animation sequence with delays
     const timers = [
-      // Step 1: Show "Girl," then hide it
-      setTimeout(() => setCurrentStep(1), 1000),        // Show "Girl,"
-      setTimeout(() => setCurrentStep(0), 3000),        // Hide (back to blank)
-      
-      // Step 2: Show "are you today's date?" then hide it
-      setTimeout(() => setCurrentStep(2), 4000),        // Show "are you today's date?"
-      setTimeout(() => setCurrentStep(0), 6500),        // Hide (back to blank)
-      
-      // Step 3: Show the punchline then hide it
-      setTimeout(() => setCurrentStep(3), 7500),        // Show "cause you're a 09 + 01 = 10"
-      setTimeout(() => setCurrentStep(0), 10000),       // Hide (back to blank)
-      
-      // Step 4: Show the button (and keep it visible)
-      setTimeout(() => setCurrentStep(4), 11000),       // Show button
+      setTimeout(() => setTextStep(1), 1000),    // "Girl,"
+      setTimeout(() => setTextStep(2), 3500),    // "are you today's date?"
+      setTimeout(() => setTextStep(3), 6500),    // "cause you're a 09 + 01 = 10"
+      setTimeout(() => setTextStep(4), 9000),    // Show button
     ];
 
     return () => timers.forEach(clearTimeout);
@@ -49,51 +40,51 @@ const ThirdPage = ({ selectedAge, onBack, onNext }) => {
       <div className={`relative z-10 min-h-screen flex items-center justify-center px-4 transition-opacity duration-1000 ${
         fadeOut ? 'opacity-0' : 'opacity-100'
       }`}>
-        <div className="w-full relative">
+        <div className="text-center max-w-4xl">
           
           {/* Text Step 1: "Girl," */}
           <div
-            className={`absolute inset-0 flex items-center justify-center transform transition-all duration-1000 ${
-              currentStep === 1
+            className={`mb-8 transform transition-all duration-1000 ${
+              textStep >= 1
                 ? 'translate-y-0 opacity-100'
                 : 'translate-y-10 opacity-0'
             }`}
           >
-            <h1 className="text-5xl md:text-7xl lg:text-8xl font-bold text-white cute-font text-center">
+            <h1 className="text-5xl md:text-7xl lg:text-8xl font-bold text-white mb-6 cute-font">
               Girl,
             </h1>
           </div>
 
           {/* Text Step 2: "are you today's date?" */}
           <div
-            className={`absolute inset-0 flex items-center justify-center transform transition-all duration-1000 ${
-              currentStep === 2
+            className={`mb-8 transform transition-all duration-1000 ${
+              textStep >= 2
                 ? 'translate-y-0 opacity-100'
                 : 'translate-y-10 opacity-0'
             }`}
           >
-            <h2 className="text-3xl md:text-5xl lg:text-6xl font-bold text-white cute-font text-center leading-tight">
+            <h2 className="text-3xl md:text-5xl lg:text-6xl font-bold text-white mb-6 cute-font">
               are you today's date?
             </h2>
           </div>
 
           {/* Text Step 3: "cause you're a 09 + 01 = 10" */}
           <div
-            className={`absolute inset-0 flex items-center justify-center transform transition-all duration-1000 ${
-              currentStep === 3
+            className={`mb-12 transform transition-all duration-1000 ${
+              textStep >= 3
                 ? 'translate-y-0 opacity-100'
                 : 'translate-y-10 opacity-0'
             }`}
           >
-            <h3 className="text-2xl md:text-4xl lg:text-5xl font-bold text-white cute-font text-center leading-tight">
+            <h3 className="text-2xl md:text-4xl lg:text-5xl font-bold text-white mb-8 cute-font">
               cause you're a <span className="text-yellow-400">09 + 01 = 10</span>
             </h3>
           </div>
 
           {/* Button Step 4 */}
           <div
-            className={`absolute inset-0 flex items-center justify-center transform transition-all duration-1000 ${
-              currentStep === 4
+            className={`transform transition-all duration-1000 ${
+              textStep >= 4
                 ? 'translate-y-0 opacity-100 scale-100'
                 : 'translate-y-10 opacity-0 scale-95'
             }`}

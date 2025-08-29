@@ -78,7 +78,7 @@ const NinthPage = ({ onBack, onNext }) => {
             <div className="flex-1 flex items-center justify-end">
               <div style={{ position: 'relative', width: '450px', height: '450px' }}>
                 <img 
-                  src="/1.png"
+                  src="./1.png"
                   alt="Character"
                   style={{
                     width: '450px',
@@ -157,7 +157,7 @@ const NinthPage = ({ onBack, onNext }) => {
             {/* Left side - Image stays visible */}
             <div className="flex-1 flex items-center justify-end">
               <ScribbleReveal
-                src="/1.png"
+                src="./1.png"
                 width={450}
                 height={450}
                 duration={4}

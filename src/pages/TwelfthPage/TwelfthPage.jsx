@@ -154,7 +154,7 @@ const TwelfthPage = ({ onBack, onNext }) => {
                 transition: 'opacity 0.8s ease-out'
               }}>
                 <ScribbleReveal
-                  src="/1.png"
+                  src="./1.png"
                   width={450}
                   height={450}
                   duration={4}

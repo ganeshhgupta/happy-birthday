@@ -70,7 +70,7 @@ const DodgeGame = ({ trigger, onComplete }) => {
       if (timeLeft > 0) {
         spawnObject();
       }
-    }, 800);
+    }, 1600);
 
     // Game timer
     gameIntervalRef.current = setInterval(() => {
