@@ -1,5 +1,5 @@
 {
-  "name": "hapy-birthday",
+  "name": "happy-birthday",
   "version": "1.0.0",
   "private": true,
   "dependencies": {
@@ -21,7 +21,9 @@
   "scripts": {
     "dev": "vite",
     "build": "vite build",
-    "preview": "vite preview"
+    "preview": "vite preview",
+    "predeploy": "npm run build",
+    "deploy": "gh-pages -d dist"
   },
   "browserslist": {
     "production": [
@@ -34,5 +36,6 @@
       "last 1 firefox version",
       "last 1 safari version"
     ]
-  }
+  },
+  "homepage": "https://ganeshhgupta.github.io/happy-birthday"
 }
