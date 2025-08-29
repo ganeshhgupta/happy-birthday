@@ -1,12 +1,12 @@
 // src/pages/EighteenthPage/EighteenthPage.jsx
 import React, { useState, useEffect } from 'react';
 import BackButton from '../../components/BackButton/BackButton.jsx';
-import PageFlip from '../../components/PageFlip/PageFlip.jsx';
+import LastFlip from '../../components/PageFlip/LastFlip.jsx';
 import ScribbleReveal from '../../components/ScribbleReveal/ScribbleReveal.jsx';
 
 const EighteenthPage = ({ onBack, onNext }) => {
   const [fadeOut, setFadeOut] = useState(false);
-  const [startPageFlip, setStartPageFlip] = useState(false);
+  const [startLastFlip, setStartLastFlip] = useState(false);
   const [showText, setShowText] = useState(false);
   const [showImage, setShowImage] = useState(false);
   const [showButton, setShowButton] = useState(false);
@@ -36,17 +36,17 @@ const EighteenthPage = ({ onBack, onNext }) => {
   };
 
   const handleNext = () => {
-    setStartPageFlip(true);
+    setStartLastFlip(true);
   };
 
-  const handlePageFlipComplete = () => {
+  const handleLastFlipComplete = () => {
     onNext();
   };
 
-  if (startPageFlip) {
+  if (startLastFlip) {
     return (
-      <PageFlip onComplete={handlePageFlipComplete}>
-        {/* Pass the actual page content as children */}
+      <LastFlip onComplete={handleLastFlipComplete}>
+        {/* Pass the actual page content as children to LastFlip */}
         <div className="min-h-screen flex items-center justify-center px-8">
           <div className="max-w-7xl w-full flex items-center justify-center gap-16 lg:gap-24">
             
@@ -99,7 +99,7 @@ const EighteenthPage = ({ onBack, onNext }) => {
             </button>
           </div>
         </div>
-      </PageFlip>
+      </LastFlip>
     );
   }
 

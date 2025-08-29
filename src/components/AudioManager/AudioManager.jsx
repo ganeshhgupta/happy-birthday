@@ -1,17 +1,19 @@
 // src/components/AudioManager/AudioManager.jsx
 import React, { useRef, useEffect, useState } from 'react';
 
-const AudioManager = ({ currentPage, audioFile = '/Blue.mp3', autoPlay = true, loop = true }) => {
+const AudioManager = ({ currentPage, audioFile = './Blue.mp3', autoPlay = true, loop = true }) => {
   const audioRef = useRef(null);
   const [isPlaying, setIsPlaying] = useState(false);
   const [isLoaded, setIsLoaded] = useState(false);
   const [error, setError] = useState(null);
   const [userInteracted, setUserInteracted] = useState(false);
 
-  // Pages where this audio should play - FIXED: Now includes all pages
+  // Pages where this audio should play - Updated to include all pages including CloseOne and CloseTwo
   const playOnPages = [
     'landing', 'ageSelection', 'third', 'fourth', 'fifth', 
-    'sixth', 'seventh', 'eighth', 'ninth', 'tenth', 'eleventh', 'twelfth'
+    'sixth', 'seventh', 'eighth', 'ninth', 'tenth', 'eleventh', 'twelfth',
+    'thirteenth', 'fourteenth', 'fifteenth', 'sixteenth', 'seventeenth', 'eighteenth',
+    'closeOne', 'closeTwo'
   ];
   const shouldPlay = playOnPages.includes(currentPage);
 
@@ -201,16 +203,6 @@ const AudioManager = ({ currentPage, audioFile = '/Blue.mp3', autoPlay = true, l
         {/* Hover glow effect */}
         <div className="absolute inset-0 rounded-full bg-white opacity-0 hover:opacity-10 blur-lg transition-all duration-300"></div>
       </button>
-
-      {/* Debug info */}
-      <div className="fixed top-20 right-4 z-50 bg-gray-800/90 text-white p-2 rounded text-xs max-w-48">
-        <div>Page: {currentPage}</div>
-        <div>Should Play: {shouldPlay.toString()}</div>
-        <div>Is Playing: {isPlaying.toString()}</div>
-        <div>Is Loaded: {isLoaded.toString()}</div>
-        <div>User Interacted: {userInteracted.toString()}</div>
-        {error && <div className="text-red-400">Error: {error}</div>}
-      </div>
     </>
   );
 };

@@ -348,7 +348,7 @@ const DodgeGame = ({ trigger, onComplete }) => {
               onSelectStart={(e) => e.preventDefault()}
             >
               <img
-                src="/dodge1.png"
+                src="./dodge1.png"
                 alt="Character"
                 style={{
                   width: '100%',
