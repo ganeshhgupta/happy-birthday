@@ -76,7 +76,7 @@ const FifthPage = ({ onBack = () => {}, onNext = () => {} }) => {
         {/* Image with scribble reveal animation using the component */}
         <div className="mb-12">
           <ScribbleReveal
-            src="/1.png"
+            src="./1.png"
             width={480}
             height={480}
             duration={5}
