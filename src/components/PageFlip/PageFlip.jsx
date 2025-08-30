@@ -16,6 +16,19 @@ const PageFlip = ({ onComplete, currentPageLayout, currentPageText, currentPageE
     }, 1300);
   }, [onComplete]);
 
+  // Extract image source from currentPageElement
+  const getCurrentPageImage = () => {
+    if (currentPageElement) {
+      // Look for img elements in the current page element
+      const imgElement = currentPageElement.querySelector('img');
+      if (imgElement) {
+        return imgElement.src;
+      }
+    }
+    // Return null if no image found
+    return null;
+  };
+
   return (
     <div className="fixed inset-0 z-50" style={{
       background: 'radial-gradient(circle, rgba(235, 235, 231, 1) 0%, rgba(255, 255, 255, 0.95) 40%, rgba(245, 245, 245, 0.9) 100%)',
@@ -73,18 +86,20 @@ const PageFlip = ({ onComplete, currentPageLayout, currentPageText, currentPageE
                   </h1>
                 </div>
                 
-                {/* Right side - Static image (no animation during flip) */}
+                {/* Right side - Dynamic image (only render if image exists) */}
                 <div className="flex-1 flex items-center justify-start">
-                  <img 
-                    src="/6.jpg"
-                    width={700}
-                    height={700}
-                    alt="Character"
-                    style={{
-                      objectFit: 'cover',
-                      borderRadius: '8px'
-                    }}
-                  />
+                  {getCurrentPageImage() && (
+                    <img 
+                      src={getCurrentPageImage()}
+                      width={700}
+                      height={700}
+                      alt="Character"
+                      style={{
+                        objectFit: 'cover',
+                        borderRadius: '8px'
+                      }}
+                    />
+                  )}
                 </div>
               </div>
             </div>

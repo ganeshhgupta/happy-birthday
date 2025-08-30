@@ -20,6 +20,19 @@ const LastFlip = ({ onComplete, currentPageLayout, currentPageText, currentPageE
     }, 1300);
   }, [onComplete]);
 
+  // Extract image source from currentPageElement
+  const getCurrentPageImage = () => {
+    if (currentPageElement) {
+      // Look for img elements in the current page element
+      const imgElement = currentPageElement.querySelector('img');
+      if (imgElement) {
+        return imgElement.src;
+      }
+    }
+    // Return null if no image found
+    return null;
+  };
+
   // Calculate rotation based on animation step
   const getRotation = () => {
     if (animationStep === 0) return 0;
@@ -96,18 +109,20 @@ const LastFlip = ({ onComplete, currentPageLayout, currentPageText, currentPageE
                 </h1>
               </div>
               
-              {/* Right side - Static image */}
+              {/* Right side - Dynamic image (only render if image exists) */}
               <div className="flex-1 flex items-center justify-start">
-                <img 
-                  src="/6.jpg"
-                  width={700}
-                  height={700}
-                  alt="Character"
-                  style={{
-                    objectFit: 'cover',
-                    borderRadius: '8px'
-                  }}
-                />
+                {getCurrentPageImage() && (
+                  <img 
+                    src={getCurrentPageImage()}
+                    width={700}
+                    height={700}
+                    alt="Character"
+                    style={{
+                      objectFit: 'cover',
+                      borderRadius: '8px'
+                    }}
+                  />
+                )}
               </div>
             </div>
           )}

@@ -23,22 +23,22 @@ const TwelfthPage = ({ onBack, onNext }) => {
     // Text fades in
     setTimeout(() => {
       setShowText(true);
-    }, 1500);
+    }, );
     
     // Button appears
     setTimeout(() => {
       setShowButton(true);
-    }, 3500);
+    }, 4000);
     
     // Image fades out
     setTimeout(() => {
       setImageFadeOut(true);
-    }, 5000);
+    }, 2500);
     
     // Start game where image was
     setTimeout(() => {
       setShowGame(true);
-    }, 5800);
+    }, 3000);
   }, []);
 
   const handleBack = () => {
@@ -157,7 +157,7 @@ const TwelfthPage = ({ onBack, onNext }) => {
                   src="./1.png"
                   width={450}
                   height={450}
-                  duration={4}
+                  duration={2}
                   strokeWidth={50}
                   strokeColor="white"
                   trigger={showImage}

@@ -94,7 +94,7 @@ const ThirdPage = ({ selectedAge, onBack, onNext }) => {
               className="group relative px-8 py-4 bg-gray-800 hover:bg-gray-700 text-white font-semibold rounded-full shadow-lg transition-all duration-300 hover:scale-105 active:scale-95 border border-gray-600 hover:border-gray-400 hover:shadow-white/40 hover:shadow-xl cute-font"
             >
               <span className="relative z-10 flex items-center gap-3 text-lg md:text-xl">
-                very lame 🙄
+                veryy lame
               </span>
               
               {/* Hover glow effect */}

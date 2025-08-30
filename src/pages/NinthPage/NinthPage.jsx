@@ -19,32 +19,32 @@ const NinthPage = ({ onBack, onNext }) => {
     // Image scribbles in first
     setTimeout(() => {
       setShowImage(true);
-    }, 500);
+    }, );
     
     // Text fades in
     setTimeout(() => {
       setShowText(true);
-    }, 1500);
-    
-    // Button appears
-    setTimeout(() => {
-      setShowButton(true);
-    }, 3500);
+    }, );
     
     // Text floats up
     setTimeout(() => {
       setTextFloatUp(true);
-    }, 5000);
+    }, 2000);
     
     // Text fades out
     setTimeout(() => {
       setTextFadeOut(true);
-    }, 5800);
+    }, 2500);
     
     // Start quiz (clue appears where text was)
     setTimeout(() => {
       setShowQuiz(true);
-    }, 6300);
+    }, 3000);
+
+    // Button appears
+    setTimeout(() => {
+      setShowButton(true);
+    }, 4500);
   }, []);
 
   const handleBack = () => {
@@ -160,7 +160,7 @@ const NinthPage = ({ onBack, onNext }) => {
                 src="./1.png"
                 width={450}
                 height={450}
-                duration={4}
+                duration={2}
                 strokeWidth={50}
                 strokeColor="white"
                 trigger={showImage}

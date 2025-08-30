@@ -15,17 +15,17 @@ const EighthPage = ({ onBack, onNext }) => {
     // Text fades in first
     setTimeout(() => {
       setShowText(true);
-    }, 500);
+    }, );
     
     // Image scribbles in after text
     setTimeout(() => {
       setShowImage(true);
-    }, 1500);
+    }, );
     
     // Button appears last
     setTimeout(() => {
       setShowButton(true);
-    }, 4000);
+    }, 2000);
   }, []);
 
   const handleBack = () => {
@@ -139,10 +139,10 @@ const EighthPage = ({ onBack, onNext }) => {
             {/* Right side - Image with scribble reveal */}
             <div className="flex-1 flex items-center justify-start">
               <ScribbleReveal
-                src="./1.png"
+                src="./gayab1.jpg"
                 width={450}
                 height={450}
-                duration={4}
+                duration={2}
                 strokeWidth={50}
                 strokeColor="white"
                 trigger={showImage}

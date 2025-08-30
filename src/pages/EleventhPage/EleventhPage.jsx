@@ -20,12 +20,12 @@ const EleventhPage = ({ onBack, onNext }) => {
     // Image scribbles in after text
     setTimeout(() => {
       setShowImage(true);
-    }, 1500);
+    }, );
     
     // Button appears last
     setTimeout(() => {
       setShowButton(true);
-    }, 4000);
+    }, 2000);
   }, []);
 
   const handleBack = () => {
@@ -119,10 +119,10 @@ const EleventhPage = ({ onBack, onNext }) => {
             {/* Left side - Image with scribble reveal */}
             <div className="flex-1 flex items-center justify-end">
               <ScribbleReveal
-                src="./1.png"
+                src="./khaww1.jpg"
                 width={450}
                 height={450}
-                duration={4}
+                duration={2}
                 strokeWidth={50}
                 strokeColor="white"
                 trigger={showImage}

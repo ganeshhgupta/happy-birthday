@@ -15,17 +15,17 @@ const SixthPage = ({ onBack, onNext }) => {
     // Text fades in first
     setTimeout(() => {
       setShowText(true);
-    }, 500);
+    }, );
     
     // Image scribbles in after text
     setTimeout(() => {
       setShowImage(true);
-    }, 1500);
+    }, );
     
     // Button appears last
     setTimeout(() => {
       setShowButton(true);
-    }, 4000);
+    }, 2000);
   }, []);
 
   const handleBack = () => {
@@ -45,11 +45,59 @@ const SixthPage = ({ onBack, onNext }) => {
 
   if (startPageFlip) {
     return (
-      <PageFlip 
-        onComplete={handlePageFlipComplete}
-        currentPageLayout="left"
-        currentPageText="Who loves ramen and sweet treats"
-      />
+      <PageFlip onComplete={handlePageFlipComplete}>
+        {/* Pass the actual page content as children */}
+        <div className="min-h-screen flex items-center justify-center px-8">
+          <div className="max-w-7xl w-full flex items-center justify-center gap-16 lg:gap-24">
+            
+            {/* Left side - Text */}
+            <div className="flex-1 flex items-center justify-end">
+              <h1 style={{ 
+                fontFamily: "Zen Loop, cursive", 
+                fontSize: 'clamp(2.5rem, 5vw, 4rem)', 
+                fontWeight: 400, 
+                color: '#1f2937',
+                lineHeight: '1.3',
+                maxWidth: '500px'
+              }}>
+                Who loves ramen and sweet treats
+              </h1>
+            </div>
+            
+            {/* Right side - Image */}
+            <div className="flex-1 flex items-center justify-start">
+              <img 
+                src="./1.png"
+                alt="Character"
+                style={{
+                  width: 'min(450px, 40vw)',
+                  height: 'min(450px, 40vw)',
+                  objectFit: 'cover'
+                }}
+              />
+            </div>
+          </div>
+          
+          {/* Button positioned at bottom center */}
+          <div style={{
+            position: 'absolute',
+            bottom: '60px',
+            left: '50%',
+            transform: 'translateX(-50%)'
+          }}>
+            <button
+              className="group relative px-12 py-4 bg-gray-100 text-gray-800 font-semibold rounded-full shadow-lg border border-gray-300"
+              style={{ 
+                fontFamily: "Zen Loop, cursive", 
+                fontSize: '1.5rem',
+                fontWeight: 400
+              }}
+            >
+              Grr
+            </button>
+          </div>
+        </div>
+      </PageFlip>
     );
   }
 
@@ -94,7 +142,7 @@ const SixthPage = ({ onBack, onNext }) => {
                 src="./1.png"
                 width={450}
                 height={450}
-                duration={4}
+                duration={2}
                 strokeWidth={50}
                 strokeColor="white"
                 trigger={showImage}

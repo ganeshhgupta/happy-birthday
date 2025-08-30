@@ -15,17 +15,17 @@ const EighteenthPage = ({ onBack, onNext }) => {
     // Text fades in first
     setTimeout(() => {
       setShowText(true);
-    }, 500);
+    }, );
     
     // Image scribbles in after text
     setTimeout(() => {
       setShowImage(true);
-    }, 1500);
+    }, );
     
     // Button appears last
     setTimeout(() => {
       setShowButton(true);
-    }, 4000);
+    }, 2000);
   }, []);
 
   const handleBack = () => {
@@ -123,7 +123,7 @@ const EighteenthPage = ({ onBack, onNext }) => {
                 src="./1.png"
                 width={450}
                 height={450}
-                duration={4}
+                duration={2}
                 strokeWidth={50}
                 strokeColor="white"
                 trigger={showImage}

@@ -14,26 +14,26 @@ const FifthPage = ({ onBack = () => {}, onNext = () => {} }) => {
   useEffect(() => {
     console.log('FifthPage mounted - starting with white page');
     
-    // Phase 1: Image fades in after short delay
+    // Phase 1: Image fades in after shorter delay
     setTimeout(() => {
       console.log('Phase 1: Image fading in');
       setPagePhase(1);
       setShowImage(true);
-    }, 1000);
+    }, );
     
-    // Phase 2: Text fades in after image is visible
+    // Phase 2: Text fades in after image is visible (shorter delay since image animation is faster)
     setTimeout(() => {
       console.log('Phase 2: Text fading in');
       setPagePhase(2);
       setShowText(true);
-    }, 3500);
+    }, 1500);
     
-    // Phase 3: Button fades in after text
+    // Phase 3: Button fades in after text (shorter delay)
     setTimeout(() => {
       console.log('Phase 3: Button fading in');
       setPagePhase(3);
       setShowButton(true);
-    }, 5500);
+    }, 2000);
   }, []);
 
   const handleBack = () => {
@@ -55,11 +55,57 @@ const FifthPage = ({ onBack = () => {}, onNext = () => {} }) => {
 
   if (startPageFlip) {
     return (
-      <PageFlip 
-        onComplete={handlePageFlipComplete}
-        fromPageContent="chapter two"
-        toPageContent="where stories unfold like pages in the wind, each moment a new beginning"
-      />
+      <PageFlip onComplete={handlePageFlipComplete}>
+        {/* Pass the actual page content as children */}
+        <div className="min-h-screen relative overflow-hidden" style={{
+          background: 'radial-gradient(circle, rgba(235, 235, 231, 1) 0%, rgba(255, 255, 255, 0.95) 40%, rgba(245, 245, 245, 0.9) 100%)'
+        }}>
+          
+          <div className="relative z-10 min-h-screen flex flex-col items-center justify-center px-4">
+            
+            {/* Image - static during flip */}
+            <div className="mb-12">
+              <img 
+                src="./1.png"
+                alt="Today's about her"
+                style={{
+                  width: '480px',
+                  height: '480px',
+                  objectFit: 'cover'
+                }}
+              />
+            </div>
+
+            {/* Text - "today's about her" with Zen Loop font */}
+            <div className="mb-12">
+              <h1 className="text-4xl md:text-6xl lg:text-7xl font-bold text-black text-center" 
+                  style={{ 
+                    fontFamily: "Zen Loop, cursive", 
+                    fontWeight: 400, 
+                    fontStyle: "normal" 
+                  }}>
+                today's about her
+              </h1>
+            </div>
+
+            {/* Button - static during flip */}
+            <div>
+              <button
+                className="group relative px-12 py-6 bg-gray-100 text-gray-800 font-semibold rounded-full shadow-lg border border-gray-300"
+                style={{ 
+                  fontFamily: "Zen Loop, cursive", 
+                  fontWeight: 400, 
+                  fontStyle: "normal" 
+                }}
+              >
+                <span className="relative z-10 flex items-center gap-3 text-xl md:text-2xl">
+                  Bruh
+                </span>
+              </button>
+            </div>
+          </div>
+        </div>
+      </PageFlip>
     );
   }
 
@@ -79,7 +125,7 @@ const FifthPage = ({ onBack = () => {}, onNext = () => {} }) => {
             src="./1.png"
             width={480}
             height={480}
-            duration={5}
+            duration={2.5}
             strokeWidth={45}
             strokeColor="white"
             trigger={showImage}

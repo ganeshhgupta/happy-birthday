@@ -15,17 +15,17 @@ const SixteenthPage = ({ onBack, onNext }) => {
     // Text fades in first
     setTimeout(() => {
       setShowText(true);
-    }, 500);
+    }, );
     
     // Image scribbles in after text
     setTimeout(() => {
       setShowImage(true);
-    }, 1500);
+    }, );
     
     // Button appears last
     setTimeout(() => {
       setShowButton(true);
-    }, 4000);
+    }, 2000);
   }, []);
 
   const handleBack = () => {
@@ -50,8 +50,22 @@ const SixteenthPage = ({ onBack, onNext }) => {
         <div className="min-h-screen flex items-center justify-center px-8">
           <div className="max-w-7xl w-full flex items-center justify-center gap-16 lg:gap-24">
             
-            {/* Left side - Image */}
+            {/* Left side - Text */}
             <div className="flex-1 flex items-center justify-end">
+              <h1 style={{ 
+                fontFamily: "Zen Loop, cursive", 
+                fontSize: 'clamp(2.5rem, 5vw, 4rem)', 
+                fontWeight: 400, 
+                color: '#1f2937',
+                lineHeight: '1.3',
+                maxWidth: '500px'
+              }}>
+                The one who believes in 11:11 wishes
+              </h1>
+            </div>
+            
+            {/* Right side - Image */}
+            <div className="flex-1 flex items-center justify-start">
               <img 
                 src="./1.png"
                 alt="Character"
@@ -61,21 +75,6 @@ const SixteenthPage = ({ onBack, onNext }) => {
                   objectFit: 'cover'
                 }}
               />
-            </div>
-            
-            {/* Right side - Text */}
-            <div className="flex-1 flex items-center justify-start">
-              <h1 style={{ 
-                fontFamily: "Zen Loop, cursive", 
-                fontSize: 'clamp(2.5rem, 5vw, 4rem)', 
-                fontWeight: 400, 
-                color: '#1f2937',
-                lineHeight: '1.3',
-                maxWidth: '500px',
-                textAlign: 'left'
-              }}>
-                The one who believes in 11:11 wishes
-              </h1>
             </div>
           </div>
           
@@ -116,25 +115,10 @@ const SixteenthPage = ({ onBack, onNext }) => {
         <div className="min-h-screen flex items-center justify-center px-8">
           <div className="max-w-7xl w-full flex items-center justify-center gap-16 lg:gap-24">
             
-            {/* Left side - Image with scribble reveal */}
+            {/* Left side - Text with fade in */}
             <div className="flex-1 flex items-center justify-end">
-              <ScribbleReveal
-                src="./1.png"
-                width={450}
-                height={450}
-                duration={4}
-                strokeWidth={50}
-                strokeColor="white"
-                trigger={showImage}
-                delay={0}
-                alt="Character"
-              />
-            </div>
-            
-            {/* Right side - Text with fade in */}
-            <div className="flex-1 flex items-center justify-start">
               <h1 
-                className={`transform transition-all duration-[2000ms] ease-out ${
+                className={`text-center lg:text-left transform transition-all duration-[2000ms] ease-out ${
                   showText
                     ? 'translate-y-0 opacity-100'
                     : 'translate-y-10 opacity-0'
@@ -145,12 +129,26 @@ const SixteenthPage = ({ onBack, onNext }) => {
                   fontWeight: 400, 
                   color: '#1f2937',
                   lineHeight: '1.3',
-                  maxWidth: '500px',
-                  textAlign: 'left'
+                  maxWidth: '500px'
                 }}
               >
                 The one who believes in 11:11 wishes
               </h1>
+            </div>
+            
+            {/* Right side - Image with scribble reveal */}
+            <div className="flex-1 flex items-center justify-start">
+              <ScribbleReveal
+                src="./wish.jpg"
+                width={450}
+                height={450}
+                duration={2}
+                strokeWidth={50}
+                strokeColor="white"
+                trigger={showImage}
+                delay={0}
+                alt="Character"
+              />
             </div>
           </div>
         </div>
