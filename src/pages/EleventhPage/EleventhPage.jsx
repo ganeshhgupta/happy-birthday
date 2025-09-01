@@ -9,6 +9,9 @@ const EleventhPage = ({ onBack, onNext }) => {
   const [startPageFlip, setStartPageFlip] = useState(false);
   const [showText, setShowText] = useState(false);
   const [showImage, setShowImage] = useState(false);
+  const [showSubText, setShowSubText] = useState(false);
+  const [showSpotifyImage, setShowSpotifyImage] = useState(false);
+  const [showCheckItOut, setShowCheckItOut] = useState(false);
   const [showButton, setShowButton] = useState(false);
 
   useEffect(() => {
@@ -22,10 +25,25 @@ const EleventhPage = ({ onBack, onNext }) => {
       setShowImage(true);
     }, 1000);
     
+    // Sub text fades in after main text and image
+    setTimeout(() => {
+      setShowSubText(true);
+    }, 3000);
+    
+    // Spotify image fades in after sub text
+    setTimeout(() => {
+      setShowSpotifyImage(true);
+    }, 4000);
+    
+    // "Check it out" text appears after Spotify image
+    setTimeout(() => {
+      setShowCheckItOut(true);
+    }, 5000);
+    
     // Button appears last
     setTimeout(() => {
       setShowButton(true);
-    }, 2000);
+    }, 6000);
   }, []);
 
   const handleBack = () => {
@@ -64,18 +82,65 @@ const EleventhPage = ({ onBack, onNext }) => {
             </div>
             
             {/* Right side - Text */}
-            <div className="flex-1 flex items-center justify-start">
-              <h1 style={{ 
-                fontFamily: "Zen Loop, cursive", 
-                fontSize: 'clamp(2.5rem, 5vw, 4rem)', 
-                fontWeight: 400, 
-                color: '#1f2937',
-                lineHeight: '1.3',
-                maxWidth: '500px',
-                textAlign: 'left'
-              }}>
-                Jo khaww kar ke so jata hai
-              </h1>
+            <div className="flex-1 flex items-center justify-center">
+              <div className="flex flex-col items-center">
+                <h1 style={{ 
+                  fontFamily: "Zen Loop, cursive", 
+                  fontSize: 'clamp(2.5rem, 5vw, 4rem)', 
+                  fontWeight: 400, 
+                  color: '#1f2937',
+                  lineHeight: '1.3',
+                  maxWidth: '500px',
+                  textAlign: 'center',
+                  marginBottom: '2rem'
+                }}>
+                  Jo khaww kar ke so jata hai
+                </h1>
+                
+                <p style={{ 
+                  fontFamily: "Zen Loop, cursive", 
+                  fontSize: 'clamp(1.2rem, 2.5vw, 1.8rem)', 
+                  fontWeight: 400, 
+                  color: '#4b5563',
+                  lineHeight: '1.4',
+                  maxWidth: '450px',
+                  textAlign: 'center',
+                  marginBottom: '1.5rem'
+                }}>
+                  I made another instrumental playlist for you btw
+                </p>
+                
+                <a 
+                  href="https://open.spotify.com/playlist/172X2fPSEzkd8Sf95cF9jQ?si=hn7bF7A8Q32j6PRA3N4y7g&pi=nDFZGpTuRLeyN&nd=1&dlsi=3407a6be2e6b46d0"
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  className="hover:scale-105 transition-transform duration-300"
+                >
+                  <img 
+                    src="./spotify.jpg"
+                    alt="Spotify Playlist"
+                    style={{
+                      width: '200px',
+                      height: 'auto',
+                      objectFit: 'contain',
+                      borderRadius: '16px',
+                      boxShadow: '0 0 25px rgba(255, 193, 7, 0.6), 0 0 50px rgba(255, 193, 7, 0.3), 0 4px 12px rgba(0,0,0,0.15)'
+                    }}
+                  />
+                </a>
+                
+                <p style={{ 
+                  fontFamily: "Zen Loop, cursive", 
+                  fontSize: 'clamp(1rem, 2vw, 1.4rem)', 
+                  fontWeight: 400, 
+                  color: '#6b7280',
+                  lineHeight: '1.4',
+                  textAlign: 'center',
+                  marginTop: '1rem'
+                }}>
+                  check it out
+                </p>
+              </div>
             </div>
           </div>
           
@@ -132,25 +197,91 @@ const EleventhPage = ({ onBack, onNext }) => {
             </div>
             
             {/* Right side - Text with fade in */}
-            <div className="flex-1 flex items-center justify-start">
-              <h1 
-                className={`transform transition-all duration-[2000ms] ease-out ${
-                  showText
-                    ? 'translate-y-0 opacity-100'
-                    : 'translate-y-10 opacity-0'
-                }`}
-                style={{ 
-                  fontFamily: "Zen Loop, cursive", 
-                  fontSize: 'clamp(2.5rem, 5vw, 4rem)', 
-                  fontWeight: 400, 
-                  color: '#1f2937',
-                  lineHeight: '1.3',
-                  maxWidth: '500px',
-                  textAlign: 'left'
-                }}
-              >
-                Jo khaww kar ke so jata hai
-              </h1>
+            <div className="flex-1 flex items-center justify-center">
+              <div className="flex flex-col items-center">
+                <h1 
+                  className={`transform transition-all duration-[2000ms] ease-out ${
+                    showText
+                      ? 'translate-y-0 opacity-100'
+                      : 'translate-y-10 opacity-0'
+                  }`}
+                  style={{ 
+                    fontFamily: "Zen Loop, cursive", 
+                    fontSize: 'clamp(2.5rem, 5vw, 4rem)', 
+                    fontWeight: 400, 
+                    color: '#1f2937',
+                    lineHeight: '1.3',
+                    maxWidth: '500px',
+                    textAlign: 'center',
+                    marginBottom: '2rem'
+                  }}
+                >
+                  Jo khaww kar ke so jata hai
+                </h1>
+                
+                <p 
+                  className={`transform transition-all duration-[2000ms] ease-out ${
+                    showSubText
+                      ? 'translate-y-0 opacity-100'
+                      : 'translate-y-10 opacity-0'
+                  }`}
+                  style={{ 
+                    fontFamily: "Zen Loop, cursive", 
+                    fontSize: 'clamp(1.2rem, 2.5vw, 1.8rem)', 
+                    fontWeight: 400, 
+                    color: '#4b5563',
+                    lineHeight: '1.4',
+                    maxWidth: '450px',
+                    textAlign: 'center',
+                    marginBottom: '1.5rem'
+                  }}
+                >
+                  I made another instrumental playlist for you btw
+                </p>
+                
+                <a 
+                  href="https://open.spotify.com/playlist/172X2fPSEzkd8Sf95cF9jQ?si=hn7bF7A8Q32j6PRA3N4y7g&pi=nDFZGpTuRLeyN&nd=1&dlsi=3407a6be2e6b46d0"
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  className={`transform transition-all duration-[2000ms] ease-out hover:scale-105 ${
+                    showSpotifyImage
+                      ? 'translate-y-0 opacity-100'
+                      : 'translate-y-10 opacity-0'
+                  }`}
+                >
+                  <img 
+                    src="./spotify.jpg"
+                    alt="Spotify Playlist"
+                    style={{
+                      width: '200px',
+                      height: 'auto',
+                      objectFit: 'contain',
+                      borderRadius: '16px',
+                      boxShadow: '0 0 25px rgba(255, 193, 7, 0.6), 0 0 50px rgba(255, 193, 7, 0.3), 0 4px 12px rgba(0,0,0,0.15)',
+                      transition: 'transform 0.3s ease'
+                    }}
+                  />
+                </a>
+                
+                <p 
+                  className={`transform transition-all duration-[2000ms] ease-out ${
+                    showCheckItOut
+                      ? 'translate-y-0 opacity-100'
+                      : 'translate-y-10 opacity-0'
+                  }`}
+                  style={{ 
+                    fontFamily: "Zen Loop, cursive", 
+                    fontSize: 'clamp(1rem, 2vw, 1.4rem)', 
+                    fontWeight: 400, 
+                    color: '#6b7280',
+                    lineHeight: '1.4',
+                    textAlign: 'center',
+                    marginTop: '1rem'
+                  }}
+                >
+                  check it out
+                </p>
+              </div>
             </div>
           </div>
         </div>

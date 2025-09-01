@@ -33,7 +33,7 @@ const CloseTwo = ({ onBack, onNext }) => {
   useEffect(() => {
     const loadMontageFiles = () => {
       try {
-        // Your actual montage files
+        // All montage files except office.jpg
         const files = [
           'kintaro1.jpg',
           'mcd1.jpg', 
@@ -52,7 +52,10 @@ const CloseTwo = ({ onBack, onNext }) => {
         // Shuffle array for random order
         const shuffledFiles = [...files].sort(() => Math.random() - 0.5);
         
-        const montageData = shuffledFiles.map((file, index) => {
+        // Add office.jpg as the last item (not shuffled)
+        const finalFiles = [...shuffledFiles, 'office.jpg'];
+        
+        const montageData = finalFiles.map((file, index) => {
           const type = file.endsWith('.mp4') || file.endsWith('.webm') || file.endsWith('.mov') ? 'video' : 'image';
           const isLeft = index % 2 === 0; // Alternate: even indices on left, odd on right
           return {
@@ -161,8 +164,9 @@ const CloseTwo = ({ onBack, onNext }) => {
 
       const item = montageFiles[index];
       const id = Date.now() + Math.random();
+      const isLastItem = index === montageFiles.length - 1; // Check if this is office.jpg (last item)
       
-      console.log(`Showing montage item ${index + 1} of ${montageFiles.length} on ${item.isLeft ? 'LEFT' : 'RIGHT'} side`);
+      console.log(`Showing montage item ${index + 1} of ${montageFiles.length} on ${item.isLeft ? 'LEFT' : 'RIGHT'} side${isLastItem ? ' (FINAL ITEM - office.jpg)' : ''}`);
       
       // Add new montage item (don't clear existing ones for overlapping effect)
       setActiveMontageItems(prev => [...prev, { ...item, id, opacity: 0 }]);
@@ -204,6 +208,9 @@ const CloseTwo = ({ onBack, onNext }) => {
         });
       } else {
         // For images: use the original 4-second timing
+        // But for the last item (office.jpg), give it extra display time
+        const displayDuration = isLastItem ? 6000 : 4000; // office.jpg gets 6 seconds, others get 4
+        
         setTimeout(() => {
           setActiveMontageItems(prev => 
             prev.map(activeItem => 
@@ -217,12 +224,13 @@ const CloseTwo = ({ onBack, onNext }) => {
               prev.filter(activeItem => activeItem.id !== id)
             );
           }, 1000);
-        }, 4000);
+        }, displayDuration);
       }
       
       index++;
       
       // Schedule next item to start halfway through current item (2 seconds)
+      // But for the last item, don't schedule another one
       if (index < montageFiles.length) {
         setTimeout(showNextMontageItem, 2000);
       }
