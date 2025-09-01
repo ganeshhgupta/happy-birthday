@@ -10,6 +10,8 @@ const CloseTwo = ({ onBack, onNext }) => {
   const [montageFiles, setMontageFiles] = useState([]);
   const [currentMontageIndex, setCurrentMontageIndex] = useState(0);
   const [activeMontageItems, setActiveMontageItems] = useState([]);
+  const [showOfficeText, setShowOfficeText] = useState(false);
+  const [officeTextStep, setOfficeTextStep] = useState(0);
   const videoRef = useRef(null);
 
   // Function to get alternating left/right positions
@@ -120,18 +122,19 @@ const CloseTwo = ({ onBack, onNext }) => {
         setMontageActive(true);
       }, 19000 + 6000 + 1000),
       
-      // Step 4: "Have a blessed life" appears after montage completes
+      // Step 4: "Have a blessed life" appears after montage completes and office text fades
       setTimeout(() => {
         console.log('Step 4: Blessed life appears');
         setTextStep(4);
         setMontageActive(false);
-      }, 25000 + Math.max(montageTotalDuration, 10000) + 2000),
+        setShowOfficeText(false); // Ensure office text is hidden
+      }, 25000 + Math.max(montageTotalDuration, 10000) + 12000), // Extra 10 seconds for office text sequence
       
       // Step 5: Final fade out
       setTimeout(() => {
         console.log('Step 5: Final fade out');
         setTextStep(5);
-      }, 25000 + Math.max(montageTotalDuration, 10000) + 10000),
+      }, 25000 + Math.max(montageTotalDuration, 10000) + 22000), // Adjusted for office text timing
     ];
 
     // Montage timing - only if we have files
@@ -139,7 +142,7 @@ const CloseTwo = ({ onBack, onNext }) => {
       setTimeout(() => {
         console.log('Starting montage with', montageFiles.length, 'files');
         startMontage();
-      }, 25000 + 1000); // Start 1 second after text fade begins
+      }, 26000 + 1000); // Start 2 seconds after text fade begins (increased by 1 second)
     }
 
     return () => {
@@ -208,8 +211,36 @@ const CloseTwo = ({ onBack, onNext }) => {
         });
       } else {
         // For images: use the original 4-second timing
-        // But for the last item (office.jpg), give it extra display time
-        const displayDuration = isLastItem ? 6000 : 4000; // office.jpg gets 6 seconds, others get 4
+        // But for the last item (office.jpg), give it extra display time and trigger text
+        const displayDuration = isLastItem ? 12000 : 4000; // office.jpg gets 12 seconds, others get 4
+        
+        // If this is the last item (office.jpg), trigger the office text sequence
+        if (isLastItem) {
+          console.log('Office.jpg detected - starting text sequence');
+          
+          // Show office text container after previous right-side item has faded out
+          setTimeout(() => {
+            setShowOfficeText(true);
+          }, 2500); // Wait for previous item to fade out completely
+          
+          // Step 1: First part of text appears
+          setTimeout(() => {
+            console.log('Office text step 1: First part appears');
+            setOfficeTextStep(1);
+          }, 3000);
+          
+          // Step 2: Second part appears  
+          setTimeout(() => {
+            console.log('Office text step 2: Second part appears');
+            setOfficeTextStep(2);
+          }, 5000);
+          
+          // Step 3: Everything fades out (after staying for 4 seconds each)
+          setTimeout(() => {
+            console.log('Office text step 3: Everything fades out');
+            setOfficeTextStep(3);
+          }, 11000); // First text shows for 4s, second text shows for 4s total
+        }
         
         setTimeout(() => {
           setActiveMontageItems(prev => 
@@ -319,6 +350,55 @@ const CloseTwo = ({ onBack, onNext }) => {
         </div>
       )}
 
+      {/* Office Text Layer - appears when office.jpg is shown */}
+      {showOfficeText && (
+        <div className="absolute inset-0 z-10 flex items-center justify-center pl-8 md:pl-16">
+          <div className="text-left max-w-3xl ml-80">
+            {/* First part: "Whatever someone you become..." */}
+            <div
+              className={`mb-6 transform transition-all duration-[2000ms] ease-out ${
+                officeTextStep >= 1 && officeTextStep < 3
+                  ? 'translate-x-0 opacity-100'
+                  : 'translate-x-10 opacity-0'
+              }`}
+            >
+              <p className="text-3xl md:text-4xl lg:text-5xl leading-relaxed"
+                 style={{ 
+                   fontFamily: "Zen Loop, cursive", 
+                   fontWeight: 400, 
+                   fontStyle: "normal",
+                   color: 'white',
+                   textShadow: '0 0 15px rgba(255, 255, 255, 0.8), 0 0 30px rgba(255, 255, 255, 0.6)',
+                   WebkitTextStroke: '0.5px rgba(255, 255, 255, 0.2)'
+                 }}>
+                Whatever someone you become and wherever you are in the world, you'd be doing wonders.
+              </p>
+            </div>
+            
+            {/* Second part: "shall always be rooting for you." */}
+            <div
+              className={`transform transition-all duration-[2000ms] ease-out ${
+                officeTextStep >= 2 && officeTextStep < 3
+                  ? 'translate-x-0 opacity-100'
+                  : 'translate-x-10 opacity-0'
+              }`}
+            >
+              <p className="text-3xl md:text-4xl lg:text-5xl leading-relaxed"
+                 style={{ 
+                   fontFamily: "Zen Loop, cursive", 
+                   fontWeight: 400, 
+                   fontStyle: "normal",
+                   color: 'white',
+                   textShadow: '0 0 15px rgba(255, 255, 255, 0.8), 0 0 30px rgba(255, 255, 255, 0.6)',
+                   WebkitTextStroke: '0.5px rgba(255, 255, 255, 0.2)'
+                 }}>
+                shall always be rooting for you.
+              </p>
+            </div>
+          </div>
+        </div>
+      )}
+
       {/* Content */}
       <div className={`relative z-10 min-h-screen flex items-center justify-center px-4 transition-opacity duration-1000 ${
         fadeOut ? 'opacity-0' : 'opacity-100'
@@ -392,9 +472,9 @@ const CloseTwo = ({ onBack, onNext }) => {
             </div>
           </div>
 
-          {/* Step 4: Have a blessed life */}
+          {/* Step 4: Have a blessed life - positioned to take full screen center */}
           <div
-            className={`transform transition-all duration-[5000ms] ease-out ${
+            className={`absolute inset-0 flex items-center justify-center transform transition-all duration-[5000ms] ease-out ${
               textStep >= 4
                 ? textStep === 5
                   ? 'translate-y-0 opacity-0' // Fade out in step 5
@@ -402,7 +482,7 @@ const CloseTwo = ({ onBack, onNext }) => {
                 : 'translate-y-10 opacity-0' // Hidden before step 4
             }`}
           >
-            <h2 className="text-7xl md:text-8xl lg:text-[10rem] text-center"
+            <h2 className="text-7xl md:text-8xl lg:text-[10rem] text-center px-4"
                 style={{ 
                   fontFamily: "Zen Loop, cursive", 
                   fontWeight: 400, 
