@@ -71,6 +71,7 @@ const App = () => {
 
   const handlePageTransition = (newPage, data = null) => {
     console.log('handlePageTransition called with:', newPage, data);
+    
     setCurrentPage(newPage);
 
     if (data) {
@@ -143,19 +144,26 @@ const App = () => {
   const handleBackToEighteenth = () => handlePageTransition('eighteenth');
   const handleBackToCloseOne = () => handlePageTransition('closeOne');
 
-  // Determine audio file based on current page
-  const getAudioFile = () => {
+  // Determine audio file and loop setting based on current page
+  const getAudioConfig = () => {
     switch(currentPage) {
+      case 'eighteenth':
+        return {
+          file: './blue-end.mp3',
+          loop: false // Play only once
+        };
       case 'closeOne':
       case 'closeTwo':
-        return './sparkle.m4a'; // Both CloseOne and CloseTwo use sparkle.m4a
+        return {
+          file: './sparkle.m4a',
+          loop: true
+        };
       case 'twelfth':
       case 'thirteenth':
       case 'fourteenth':
       case 'fifteenth':
       case 'sixteenth':
       case 'seventeenth':
-      case 'eighteenth':
       case 'landing':
       case 'ageSelection':
       case 'third':
@@ -168,19 +176,24 @@ const App = () => {
       case 'tenth':
       case 'eleventh':
       default:
-        return './Blue.mp3';
+        return {
+          file: './Blue.mp3',
+          loop: true
+        };
     }
   };
 
+  const audioConfig = getAudioConfig();
+
   return (
     <div className="font-sans relative">
-      {/* Background Music Manager - persistent with stable key */}
+      {/* Background Music Manager - with stable key to preserve user interaction state */}
       <AudioManager 
-        key="persistent-audio-manager" // Stable key to prevent re-mounting
+        key="stable-audio-manager" // Stable key to preserve userInteracted state
         currentPage={currentPage} 
-        audioFile={getAudioFile()}
-        autoPlay={true} // Ensure autoplay is enabled
-        loop={true} // Keep music looping
+        audioFile={audioConfig.file}
+        autoPlay={true}
+        loop={audioConfig.loop} // Dynamic loop setting
       />
       
       {/* Page Content */}

@@ -261,11 +261,6 @@ const AgeSelectionPage = ({ onNext, onBack }) => {
             </div>
           </>
         )}
-
-        {/* Debug info - remove in production */}
-        <div className="fixed bottom-4 left-4 bg-black/80 text-white p-2 rounded text-xs">
-          Animation Step: {animationStep}
-        </div>
       </div>
     </div>
   );

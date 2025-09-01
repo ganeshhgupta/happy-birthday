@@ -1,26 +1,30 @@
 // src/pages/FifteenthPage/FifteenthPage.jsx
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect, useRef } from 'react';
 import BackButton from '../../components/BackButton/BackButton.jsx';
 import PageFlip from '../../components/PageFlip/PageFlip.jsx';
-import ScribbleReveal from '../../components/ScribbleReveal/ScribbleReveal.jsx';
 
 const FifteenthPage = ({ onBack, onNext }) => {
   const [fadeOut, setFadeOut] = useState(false);
   const [startPageFlip, setStartPageFlip] = useState(false);
   const [showText, setShowText] = useState(false);
-  const [showImage, setShowImage] = useState(false);
+  const [showVideo, setShowVideo] = useState(false);
   const [showButton, setShowButton] = useState(false);
+  const videoRef = useRef(null);
 
   useEffect(() => {
     // Text fades in first
     setTimeout(() => {
       setShowText(true);
-    }, );
+    }, 500);
     
-    // Image scribbles in after text
+    // Video fades in after text
     setTimeout(() => {
-      setShowImage(true);
-    }, );
+      setShowVideo(true);
+      // Start video playback
+      if (videoRef.current) {
+        videoRef.current.play().catch(console.error);
+      }
+    }, 1000);
     
     // Button appears last
     setTimeout(() => {
@@ -30,12 +34,20 @@ const FifteenthPage = ({ onBack, onNext }) => {
 
   const handleBack = () => {
     setFadeOut(true);
+    // Pause video when leaving page
+    if (videoRef.current) {
+      videoRef.current.pause();
+    }
     setTimeout(() => {
       onBack();
     }, 500);
   };
 
   const handleNext = () => {
+    // Pause video during transition
+    if (videoRef.current) {
+      videoRef.current.pause();
+    }
     setStartPageFlip(true);
   };
 
@@ -46,19 +58,18 @@ const FifteenthPage = ({ onBack, onNext }) => {
   if (startPageFlip) {
     return (
       <PageFlip onComplete={handlePageFlipComplete}>
-        {/* Pass the actual page content as children */}
         <div className="min-h-screen flex items-center justify-center px-8">
           <div className="max-w-7xl w-full flex items-center justify-center gap-16 lg:gap-24">
             
-            {/* Left side - Image */}
+            {/* Left side - Static image for PageFlip */}
             <div className="flex-1 flex items-center justify-end">
               <img 
                 src="./1.png"
                 alt="Character"
                 style={{
-                  width: 'min(450px, 40vw)',
-                  height: 'min(450px, 40vw)',
-                  objectFit: 'cover'
+                  width: 'min(675px, 60vw)',
+                  height: 'min(675px, 60vw)',
+                  objectFit: 'contain'
                 }}
               />
             </div>
@@ -74,12 +85,11 @@ const FifteenthPage = ({ onBack, onNext }) => {
                 maxWidth: '500px',
                 textAlign: 'left'
               }}>
-                Jisko pata nahi momos kaise pasand aata hai
+                Jo diwali ke din khud bachhua bann jata hai
               </h1>
             </div>
           </div>
           
-          {/* Button positioned at bottom center */}
           <div style={{
             position: 'absolute',
             bottom: '60px',
@@ -112,22 +122,26 @@ const FifteenthPage = ({ onBack, onNext }) => {
         fadeOut ? 'opacity-0' : 'opacity-100'
       }`}>
         
-        {/* Greeting card style layout - two centered columns */}
         <div className="min-h-screen flex items-center justify-center px-8">
           <div className="max-w-7xl w-full flex items-center justify-center gap-16 lg:gap-24">
             
-            {/* Left side - Image with scribble reveal */}
+            {/* Left side - Simple video with fade in */}
             <div className="flex-1 flex items-center justify-end">
-              <ScribbleReveal
-                src="./1.png"
-                width={450}
-                height={450}
-                duration={2}
-                strokeWidth={50}
-                strokeColor="white"
-                trigger={showImage}
-                delay={0}
-                alt="Character"
+              <video
+                ref={videoRef}
+                src="./diwali.mp4"
+                loop
+                muted={false}
+                playsInline
+                className={`object-contain rounded-lg transform transition-all duration-[2000ms] ease-out ${
+                  showVideo
+                    ? 'translate-y-0 opacity-100'
+                    : 'translate-y-10 opacity-0'
+                }`}
+                style={{
+                  width: 'min(675px, 60vw)',
+                  height: 'min(675px, 60vw)',
+                }}
               />
             </div>
             
@@ -149,7 +163,7 @@ const FifteenthPage = ({ onBack, onNext }) => {
                   textAlign: 'left'
                 }}
               >
-                Jisko pata nahi momos kaise pasand aata hai
+                Jo diwali ke din khud bachhua bann jata hai
               </h1>
             </div>
           </div>
@@ -174,7 +188,6 @@ const FifteenthPage = ({ onBack, onNext }) => {
           >
             <span className="relative z-10">Grr</span>
             
-            {/* Hover glow effect */}
             <div className="absolute inset-0 rounded-full bg-gray-300 opacity-0 group-hover:opacity-20 blur-lg transition-all duration-300"></div>
           </button>
         </div>

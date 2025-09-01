@@ -480,7 +480,7 @@ const FourthPage = ({ onBack, onNext }) => {
                   className="group relative px-10 py-4 bg-gray-800 hover:bg-gray-700 text-white font-semibold rounded-full shadow-lg transition-all duration-300 hover:scale-105 active:scale-95 border border-gray-600 hover:border-gray-400 hover:shadow-white/40 hover:shadow-xl cute-font z-30"
                   style={{ position: 'relative', zIndex: 30 }}
                 >
-                  <span className="relative z-10 flex items-center gap-2 text-lg md:text-xl">Yess 😍</span>
+                  <span className="relative z-10 flex items-center gap-2 text-lg md:text-xl">Rakho apna moon</span>
                   <div className="absolute inset-0 rounded-full bg-white opacity-0 group-hover:opacity-20 blur-lg transition-all duration-300"></div>
                   <div className="absolute -inset-1 rounded-full bg-white opacity-0 group-hover:opacity-10 blur-xl transition-all duration-300"></div>
                 </button>
@@ -490,7 +490,7 @@ const FourthPage = ({ onBack, onNext }) => {
                   className="group relative px-10 py-4 bg-gray-800 hover:bg-gray-700 text-white font-semibold rounded-full shadow-lg transition-all duration-300 hover:scale-105 active:scale-95 border border-gray-600 hover:border-gray-400 hover:shadow-white/40 hover:shadow-xl cute-font z-30"
                   style={{ position: 'relative', zIndex: 30 }}
                 >
-                  <span className="relative z-10 flex items-center gap-2 text-lg md:text-xl">Bada Aaya 😏</span>
+                  <span className="relative z-10 flex items-center gap-2 text-lg md:text-xl">Badaa Aaya</span>
                   <div className="absolute inset-0 rounded-full bg-white opacity-0 group-hover:opacity-20 blur-lg transition-all duration-300"></div>
                   <div className="absolute -inset-1 rounded-full bg-white opacity-0 group-hover:opacity-10 blur-xl transition-all duration-300"></div>
                 </button>
@@ -500,13 +500,6 @@ const FourthPage = ({ onBack, onNext }) => {
 
           </div>
         )}
-
-        {/* Debug info */}
-        <div className="fixed bottom-4 left-4 bg-black/80 text-white p-2 rounded text-xs">
-          Camera: {cameraGranted} | Moon: {showMoon} | Video: {showVideoCircle} | ShowStars: {showStars}
-          <br />
-          BackgroundFade: {backgroundFade} | ShowRadialOverlay: {showRadialOverlay}
-        </div>
 
       </div>
     </div>

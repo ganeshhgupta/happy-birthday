@@ -4,20 +4,21 @@ import './BubbleQuiz.css';
 
 const BubbleQuiz = ({ onComplete, trigger }) => {
   const wordsAndClues = [
-    { word: "Chh Chh", clue: "When she's trying to call/bother you" },
-    { word: "Huehuehue", clue: "How she laughs" },
-    { word: "Laah", clue: "When she's let down" },
-    { word: "Buhahaha", clue: "How she laughs (2)" },
-    { word: "HellohelloHello", clue: "When she calls you (in a good mood)" },
-    { word: "Chopa ho gaya", clue: "When something failed" },
-    { word: "Bruh", clue: "Her goto interjection" },
-    { word: "Nope Nope Nope", clue: "When she says No (but cute)" },
-    { word: "Whaaa", clue: "When she's amazed" },
-    { word: "Grrr", clue: "Even Idk why she does this" },
-    { word: "Stoop", clue: "When she's calling you stupid" },
-    { word: "Oh my Goodness", clue: "When she's pleasantly surprised" },
-    { word: "Khatchh", clue: "When she's trying to stab you" },
-    { word: "Chicken", clue: "What I call her :)" }
+    { word: "Chh Chh", clue: "When she's trying to call/bother you:" },
+    { word: "Huehuehue", clue: "How she laughs:" },
+    { word: "Laah", clue: "When she's let down:" },
+    { word: "Buhahaha", clue: "How she laughs (2):" },
+    { word: "Hello Hello Hello", clue: "When she calls you (in a good mood):" },
+    { word: "Chopa ho gaya", clue: "When something failed:" },
+    { word: "Bruh", clue: "Her goto interjection:" },
+    { word: "Nope Nope Nope", clue: "When she says No (but cute):" },
+    { word: "Whaaa", clue: "When she's amazed:" },
+    { word: "Grrr", clue: "Even Idk why she does this:" },
+    { word: "Stoop", clue: "When she's calling you stupid:" },
+    { word: "Oh my Goodness", clue: "When she's pleasantly surprised:" },
+    { word: "Khatchh 🔪", clue: "When she's trying to stab you:" },
+    { word: "irri mat karo", clue: "When she's irritated:" },
+    { word: "Chicken", clue: "What I call her :):" }
   ];
 
   const [currentClueIndex, setCurrentClueIndex] = useState(0);

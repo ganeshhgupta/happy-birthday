@@ -10,33 +10,8 @@ const LandingPage = ({ onNext }) => {
   const particleCanvasRef = useRef(null);
   const animationFrameRef = useRef(null);
   const starsRef = useRef([]);
-  const buttonRef = useRef(null);
 
   useEffect(() => {
-    // Load Twemoji library
-    const loadTwemoji = () => {
-      if (window.twemoji) {
-        // Parse existing emojis
-        window.twemoji.parse(document.body);
-        return;
-      }
-
-      const script = document.createElement('script');
-      script.src = 'https://cdn.jsdelivr.net/npm/twemoji@14.0.2/dist/twemoji.min.js';
-      script.onload = () => {
-        if (window.twemoji) {
-          window.twemoji.parse(document.body, {
-            folder: 'svg',
-            ext: '.svg',
-            className: 'emoji-style'
-          });
-        }
-      };
-      document.head.appendChild(script);
-    };
-
-    loadTwemoji();
-
     // Reset states when component mounts
     setVisibleHellos(0);
     setShowButton(false);
@@ -60,19 +35,6 @@ const LandingPage = ({ onNext }) => {
       }
     };
   }, []);
-
-  // Re-parse emojis when button becomes visible
-  useEffect(() => {
-    if (showButton && window.twemoji) {
-      setTimeout(() => {
-        window.twemoji.parse(buttonRef.current || document.body, {
-          folder: 'svg',
-          ext: '.svg',
-          className: 'emoji-style'
-        });
-      }, 100);
-    }
-  }, [showButton]);
 
   const initParticles = () => {
     const canvas = particleCanvasRef.current;
@@ -179,24 +141,6 @@ const LandingPage = ({ onNext }) => {
   return (
     <div className="min-h-screen bg-gradient-to-br from-black via-gray-900 to-gray-800 flex flex-col items-center justify-center relative overflow-hidden">
       
-      {/* Add emoji styles */}
-      <style jsx>{`
-        .emoji-style {
-          height: 1.2em !important;
-          width: 1.2em !important;
-          margin: 0 0.05em 0 0.1em !important;
-          vertical-align: -0.1em !important;
-          display: inline !important;
-        }
-        
-        /* Specific styling for button emojis */
-        button .emoji-style {
-          height: 1.4em !important;
-          width: 1.4em !important;
-          vertical-align: -0.2em !important;
-        }
-      `}</style>
-
       {/* Particle Canvas */}
       <canvas
         ref={particleCanvasRef}
@@ -227,12 +171,11 @@ const LandingPage = ({ onNext }) => {
           }`}
         >
           <button
-            ref={buttonRef}
             onClick={handleNext}
-            className="group relative px-8 py-4 bg-gray-800 hover:bg-gray-700 text-white font-semibold rounded-full shadow-lg transition-all duration-300 hover:scale-105 active:scale-95 border border-gray-600 hover:border-gray-400 hover:shadow-white/40 hover:shadow-xl"
+            className="group relative px-8 py-4 bg-gray-800 hover:bg-gray-700 text-white font-bold rounded-full shadow-lg transition-all duration-300 hover:scale-105 active:scale-95 border border-gray-600 hover:border-gray-400 hover:shadow-white/40 hover:shadow-xl"
           >
-            <span className="relative z-10 flex items-center gap-3 text-lg md:text-xl">
-              Kya chahiye tumko? 😒
+            <span className="relative z-10 flex items-center gap-3 text-lg md:text-xl tracking-wider font-mono cute-font">
+              Kyaa chahiye tumko?
               <ChevronRight className="w-5 h-5 group-hover:translate-x-1 transition-transform" />
             </span>
             

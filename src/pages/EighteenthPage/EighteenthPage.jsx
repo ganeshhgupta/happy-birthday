@@ -15,12 +15,12 @@ const EighteenthPage = ({ onBack, onNext }) => {
     // Text fades in first
     setTimeout(() => {
       setShowText(true);
-    }, );
+    }, 500);
     
     // Image scribbles in after text
     setTimeout(() => {
       setShowImage(true);
-    }, );
+    }, 1000);
     
     // Button appears last
     setTimeout(() => {
@@ -53,12 +53,12 @@ const EighteenthPage = ({ onBack, onNext }) => {
             {/* Left side - Image */}
             <div className="flex-1 flex items-center justify-end">
               <img 
-                src="./1.png"
+                src="./pyaara1.png"
                 alt="Character"
                 style={{
-                  width: 'min(450px, 40vw)',
-                  height: 'min(450px, 40vw)',
-                  objectFit: 'cover'
+                  width: 'min(675px, 60vw)',
+                  height: 'min(675px, 60vw)',
+                  objectFit: 'contain'
                 }}
               />
             </div>
@@ -74,7 +74,7 @@ const EighteenthPage = ({ onBack, onNext }) => {
                 maxWidth: '500px',
                 textAlign: 'left'
               }}>
-                Hai wo bada par lagta hai smol,<br />
+                Hai bada par lagta hai smol,<br />
                 Pyaari si wo.. teacher ki beti :)
               </h1>
             </div>
@@ -120,9 +120,9 @@ const EighteenthPage = ({ onBack, onNext }) => {
             {/* Left side - Image with scribble reveal */}
             <div className="flex-1 flex items-center justify-end">
               <ScribbleReveal
-                src="./1.png"
-                width={450}
-                height={450}
+                src="./pyaara1.png"
+                width={675}
+                height={675}
                 duration={2}
                 strokeWidth={50}
                 strokeColor="white"
@@ -150,7 +150,7 @@ const EighteenthPage = ({ onBack, onNext }) => {
                   textAlign: 'left'
                 }}
               >
-                Hai wo bada par lagta hai smol,<br />
+                Hai bada par lagta hai smol,<br />
                 Pyaari si wo.. teacher ki beti :)
               </h1>
             </div>

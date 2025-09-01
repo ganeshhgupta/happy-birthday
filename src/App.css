@@ -1,8 +1,11 @@
 /* src/App.css */
 
-/* Schoolbell font style */
+/* Import Google Fonts */
+@import url('https://fonts.googleapis.com/css2?family=Zen+Loop&display=swap');
+
+/* Zen Loop font style */
 .cute-font, .schoolbell-regular {
-  font-family: "Schoolbell", cursive !important;
+  font-family: "Zen Loop", cursive !important;
   font-weight: 400;
   font-style: normal;
 }
@@ -30,12 +33,13 @@
   .text-8xl { font-size: 4rem; }
 }
 
-/* Ensure smooth transitions */
+/* Ensure smooth transitions for all elements */
 * {
   transition-property: color, background-color, border-color, text-decoration-color, fill, stroke, opacity, box-shadow, transform, filter, backdrop-filter;
   transition-timing-function: cubic-bezier(0.4, 0, 0.2, 1);
 }
 
+/* Scribble stroke animation */
 @keyframes scribble {
   to {
     stroke-dashoffset: 0;
@@ -46,4 +50,3 @@
 @tailwind base;
 @tailwind components;
 @tailwind utilities;
-

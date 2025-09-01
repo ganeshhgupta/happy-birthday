@@ -17,19 +17,19 @@ const CloseTwo = ({ onBack, onNext }) => {
     // Text animation sequence with longer initial delay
     const timers = [
       // Step 1: "Happy Birthday Anusha" appears after 6 second delay
-      setTimeout(() => setTextStep(1), 6000),
+      setTimeout(() => setTextStep(1), 6000+4000),
       
       // Step 2: "A" disappears, "Pyaara" appears with ":)" after 5 more seconds
-      setTimeout(() => setTextStep(2), 11000),
+      setTimeout(() => setTextStep(2), 11000+6000),
       
       // Step 3: Fade out birthday text after 5 more seconds
-      setTimeout(() => setTextStep(3), 16000),
+      setTimeout(() => setTextStep(3), 16000+6000),
       
       // Step 4: "Have a blessed life" appears
-      setTimeout(() => setTextStep(4), 18000),
+      setTimeout(() => setTextStep(4), 18000+6000),
       
       // Step 5: Final fade out
-      setTimeout(() => setTextStep(5), 22000),
+      setTimeout(() => setTextStep(5), 22000+8000),
     ];
 
     return () => {
@@ -170,13 +170,6 @@ const CloseTwo = ({ onBack, onNext }) => {
           </div>
 
         </div>
-      </div>
-
-      {/* Debug info */}
-      <div className="fixed bottom-4 left-4 bg-white/90 text-black p-2 rounded text-xs border z-20">
-        Text Step: {textStep} / 5
-        <br />
-        Playing fireworks video...
       </div>
     </div>
   );

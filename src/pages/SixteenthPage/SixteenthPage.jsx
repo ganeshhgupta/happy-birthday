@@ -15,12 +15,12 @@ const SixteenthPage = ({ onBack, onNext }) => {
     // Text fades in first
     setTimeout(() => {
       setShowText(true);
-    }, );
+    }, 500);
     
     // Image scribbles in after text
     setTimeout(() => {
       setShowImage(true);
-    }, );
+    }, 1000);
     
     // Button appears last
     setTimeout(() => {
@@ -67,12 +67,12 @@ const SixteenthPage = ({ onBack, onNext }) => {
             {/* Right side - Image */}
             <div className="flex-1 flex items-center justify-start">
               <img 
-                src="./1.png"
+                src="./wish.png"
                 alt="Character"
                 style={{
-                  width: 'min(450px, 40vw)',
-                  height: 'min(450px, 40vw)',
-                  objectFit: 'cover'
+                  width: 'min(675px, 60vw)',
+                  height: 'min(675px, 60vw)',
+                  objectFit: 'contain'
                 }}
               />
             </div>
@@ -139,9 +139,9 @@ const SixteenthPage = ({ onBack, onNext }) => {
             {/* Right side - Image with scribble reveal */}
             <div className="flex-1 flex items-center justify-start">
               <ScribbleReveal
-                src="./wish.jpg"
-                width={450}
-                height={450}
+                src="./wish.png"
+                width={675}
+                height={675}
                 duration={2}
                 strokeWidth={50}
                 strokeColor="white"

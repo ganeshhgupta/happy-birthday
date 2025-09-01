@@ -23,7 +23,7 @@ const TwelfthPage = ({ onBack, onNext }) => {
     // Text fades in
     setTimeout(() => {
       setShowText(true);
-    }, );
+    }, 1000);
     
     // Button appears
     setTimeout(() => {
@@ -68,29 +68,18 @@ const TwelfthPage = ({ onBack, onNext }) => {
         <div className="min-h-screen flex items-center justify-center px-8">
           <div className="max-w-7xl w-full flex items-center justify-center gap-16 lg:gap-24">
             
-            {/* Left side - Game completed state */}
+            {/* Left side - Image */}
             <div className="flex-1 flex items-center justify-end">
-              <div style={{ 
-                position: 'relative', 
-                width: '500px', 
-                height: '400px',
-                background: 'linear-gradient(180deg, #f9f9f7 0%, #f5f5f0 100%)',
-                borderRadius: '20px',
-                display: 'flex',
-                alignItems: 'center',
-                justifyContent: 'center',
-                boxShadow: '0 10px 30px rgba(0, 0, 0, 0.1)'
-              }}>
-                <div style={{
-                  fontFamily: 'Zen Loop, cursive',
-                  fontSize: '2.5rem',
-                  fontWeight: 400,
-                  color: '#6b7280',
-                  textAlign: 'center'
-                }}>
-                  Shy ho gaya! 💕
-                </div>
-              </div>
+              <img 
+                src="./comp1.png"
+                alt="Character"
+                style={{
+                  width: 'min(675px, 60vw)',
+                  height: 'min(675px, 60vw)',
+                  objectFit: 'contain',
+                  borderRadius: '8px'
+                }}
+              />
             </div>
             
             {/* Right side - Text */}
@@ -154,9 +143,9 @@ const TwelfthPage = ({ onBack, onNext }) => {
                 transition: 'opacity 0.8s ease-out'
               }}>
                 <ScribbleReveal
-                  src="./1.png"
-                  width={450}
-                  height={450}
+                  src="./comp1.png"
+                  width={675}
+                  height={675}
                   duration={2}
                   strokeWidth={50}
                   strokeColor="white"

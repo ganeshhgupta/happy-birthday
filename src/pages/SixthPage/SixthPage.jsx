@@ -11,21 +11,29 @@ const SixthPage = ({ onBack, onNext }) => {
   const [showImage, setShowImage] = useState(false);
   const [showButton, setShowButton] = useState(false);
 
+
   useEffect(() => {
     // Text fades in first
     setTimeout(() => {
       setShowText(true);
-    }, );
+    }, 500);
     
     // Image scribbles in after text
     setTimeout(() => {
       setShowImage(true);
-    }, );
+    }, 1000);
     
     // Button appears last
     setTimeout(() => {
       setShowButton(true);
     }, 2000);
+
+    // Start image cycling after image appears
+    const imageTimer = setTimeout(() => {
+      setShowButton(true);
+    }, 2000);
+
+    return () => clearTimeout(imageTimer);
   }, []);
 
   const handleBack = () => {
@@ -60,19 +68,19 @@ const SixthPage = ({ onBack, onNext }) => {
                 lineHeight: '1.3',
                 maxWidth: '500px'
               }}>
-                Who loves ramen and sweet treats
+                Who loves ramen and lil sweet treats
               </h1>
             </div>
             
             {/* Right side - Image */}
             <div className="flex-1 flex items-center justify-start">
               <img 
-                src="./1.png"
+                src="./ramen1.jpg"
                 alt="Character"
                 style={{
-                  width: 'min(450px, 40vw)',
-                  height: 'min(450px, 40vw)',
-                  objectFit: 'cover'
+                  width: 'min(900px, 80vw)',
+                  height: 'min(900px, 80vw)',
+                  objectFit: 'contain'
                 }}
               />
             </div>
@@ -132,22 +140,25 @@ const SixthPage = ({ onBack, onNext }) => {
                   maxWidth: '500px'
                 }}
               >
-                Who loves ramen and sweet treats
+                Who loves ramen and lil sweet treats
               </h1>
             </div>
             
-            {/* Right side - Image with scribble reveal */}
+            {/* Right side - Single image with fade transition */}
             <div className="flex-1 flex items-center justify-start">
-              <ScribbleReveal
-                src="./1.png"
-                width={450}
-                height={450}
-                duration={2}
-                strokeWidth={50}
-                strokeColor="white"
-                trigger={showImage}
-                delay={0}
-                alt="Character"
+              <img
+                src="./ramen1.jpg"
+                alt="Ramen"
+                className={`transform transition-all duration-[2000ms] ease-out rounded-lg ${
+                  showImage
+                    ? 'translate-y-0 opacity-100'
+                    : 'translate-y-10 opacity-0'
+                }`}
+                style={{
+                  width: 'min(900px, 80vw)',
+                  height: 'min(900px, 80vw)',
+                  objectFit: 'contain'
+                }}
               />
             </div>
           </div>

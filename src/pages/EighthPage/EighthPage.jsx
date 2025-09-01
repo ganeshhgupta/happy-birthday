@@ -10,22 +10,58 @@ const EighthPage = ({ onBack, onNext }) => {
   const [showText, setShowText] = useState(false);
   const [showImage, setShowImage] = useState(false);
   const [showButton, setShowButton] = useState(false);
+  const [currentImageIndex, setCurrentImageIndex] = useState(0);
+
+  const images = [
+    './hp1.png',
+    './hp2.png',
+    './hp3.png',
+    './hp4.png',
+    './hp5.png',
+    null // blank image for 2s delay
+  ];
 
   useEffect(() => {
     // Text fades in first
     setTimeout(() => {
       setShowText(true);
-    }, );
+    }, 500);
     
-    // Image scribbles in after text
+    // Image appears after text
     setTimeout(() => {
       setShowImage(true);
-    }, );
+    }, 1000);
     
     // Button appears last
     setTimeout(() => {
       setShowButton(true);
     }, 2000);
+
+    // Start image cycling after image appears
+    const startImageCycling = () => {
+      let currentIndex = 0;
+      let timeoutId;
+      
+      const cycleImages = () => {
+        setCurrentImageIndex(currentIndex);
+        
+        // Determine delay: 2 seconds for blank image (index 6), 1 second for regular images (0-5)
+        const delay = currentIndex === 6 ? 2000 : 1000;
+        
+        currentIndex = (currentIndex + 1) % 7; // 7 total states (0-5 for images, 6 for blank)
+        timeoutId = setTimeout(cycleImages, delay);
+      };
+      
+      cycleImages();
+      
+      return () => {
+        if (timeoutId) clearTimeout(timeoutId);
+      };
+    };
+
+    const imageTimer = setTimeout(startImageCycling, 1000);
+
+    return () => clearTimeout(imageTimer);
   }, []);
 
   const handleBack = () => {
@@ -67,12 +103,13 @@ const EighthPage = ({ onBack, onNext }) => {
             {/* Right side - Image */}
             <div className="flex-1 flex items-center justify-start">
               <img 
-                src="./1.png"
-                alt="Character"
+                src="./hp1.png"
+                alt="Harry Potter scene"
                 style={{
-                  width: 'min(450px, 40vw)',
-                  height: 'min(450px, 40vw)',
-                  objectFit: 'cover'
+                  width: 'min(675px, 60vw)',
+                  height: 'min(675px, 60vw)',
+                  objectFit: 'contain',
+                  borderRadius: '8px'
                 }}
               />
             </div>
@@ -136,19 +173,35 @@ const EighthPage = ({ onBack, onNext }) => {
               </h1>
             </div>
             
-            {/* Right side - Image with scribble reveal */}
+            {/* Right side - Cycling images with fade transitions */}
             <div className="flex-1 flex items-center justify-start">
-              <ScribbleReveal
-                src="./gayab1.jpg"
-                width={450}
-                height={450}
-                duration={2}
-                strokeWidth={50}
-                strokeColor="white"
-                trigger={showImage}
-                delay={0}
-                alt="Character"
-              />
+              <div 
+                className={`relative transform transition-all duration-[2000ms] ease-out ${
+                  showImage
+                    ? 'translate-y-0 opacity-100'
+                    : 'translate-y-10 opacity-0'
+                }`}
+                style={{
+                  width: 'min(675px, 60vw)',
+                  height: 'min(675px, 60vw)',
+                }}
+              >
+                {/* Only render images when not in blank state */}
+                {currentImageIndex !== 6 && images.slice(0, 6).map((src, index) => (
+                  index === currentImageIndex && (
+                    <img
+                      key={src}
+                      src={src}
+                      alt="Harry Potter scenes"
+                      className="absolute top-0 left-0 w-full h-full object-contain rounded-lg transition-opacity duration-500 opacity-100"
+                    />
+                  )
+                ))}
+                {/* Blank state when currentImageIndex is 6 */}
+                {currentImageIndex === 6 && (
+                  <div className="absolute top-0 left-0 w-full h-full bg-transparent" />
+                )}
+              </div>
             </div>
           </div>
         </div>

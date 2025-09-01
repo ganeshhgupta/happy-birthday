@@ -53,12 +53,12 @@ const SeventeenthPage = ({ onBack, onNext }) => {
             {/* Left side - Image */}
             <div className="flex-1 flex items-center justify-end">
               <img 
-                src="./1.png"
+                src="./battle.jpg"
                 alt="Character"
                 style={{
-                  width: 'min(450px, 40vw)',
-                  height: 'min(450px, 40vw)',
-                  objectFit: 'cover'
+                  width: 'min(900px, 70vw)',
+                  height: 'min(900px, 70vw)',
+                  objectFit: 'contain'
                 }}
               />
             </div>
@@ -74,7 +74,7 @@ const SeventeenthPage = ({ onBack, onNext }) => {
                 maxWidth: '500px',
                 textAlign: 'left'
               }}>
-                Job, padhai, bachchuaas and battles sab akele handle kar leti
+                Job, padhai, bachchuaas and battles sab wo handle kar leti
               </h1>
             </div>
           </div>
@@ -119,11 +119,11 @@ const SeventeenthPage = ({ onBack, onNext }) => {
             {/* Left side - Image with scribble reveal */}
             <div className="flex-1 flex items-center justify-end">
               <ScribbleReveal
-                src="./1.png"
-                width={450}
-                height={450}
+                src="./battle.jpg"
+                width={900}
+                height={900}
                 duration={4}
-                strokeWidth={50}
+                strokeWidth={70}
                 strokeColor="white"
                 trigger={showImage}
                 delay={0}
@@ -149,7 +149,7 @@ const SeventeenthPage = ({ onBack, onNext }) => {
                   textAlign: 'left'
                 }}
               >
-                Job, padhai, bachchuaas and battles sab akele handle kar leti
+                Job, padhai, bachchuaas and battles sab wo handle kar leti
               </h1>
             </div>
           </div>

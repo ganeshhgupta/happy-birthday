@@ -1,7 +1,7 @@
 // src/components/PageFlip/PageFlip.jsx
 import React, { useState, useEffect, cloneElement } from 'react';
 
-const PageFlip = ({ onComplete, currentPageLayout, currentPageText, currentPageElement, children }) => {
+const PageFlip = ({ onComplete, currentPageLayout, currentPageText, currentPageElement, children, imageDimensions }) => {
   const [isFlipped, setIsFlipped] = useState(false);
 
   useEffect(() => {
@@ -27,6 +27,38 @@ const PageFlip = ({ onComplete, currentPageLayout, currentPageText, currentPageE
     }
     // Return null if no image found
     return null;
+  };
+
+  // Clone children and update image dimensions if imageDimensions prop is provided
+  const renderChildrenWithUpdatedDimensions = () => {
+    if (!children || !imageDimensions) return children;
+
+    const updateImageDimensions = (element) => {
+      if (React.isValidElement(element)) {
+        // If it's an img element, update its dimensions
+        if (element.type === 'img') {
+          return React.cloneElement(element, {
+            style: {
+              ...element.props.style,
+              width: `${imageDimensions.width}px`,
+              height: `${imageDimensions.height}px`,
+              objectFit: 'contain' // Use contain to maintain aspect ratio
+            }
+          });
+        }
+        
+        // If it has children, recursively update them
+        if (element.props && element.props.children) {
+          return React.cloneElement(element, {
+            children: React.Children.map(element.props.children, updateImageDimensions)
+          });
+        }
+      }
+      
+      return element;
+    };
+
+    return React.Children.map(children, updateImageDimensions);
   };
 
   return (
@@ -61,9 +93,9 @@ const PageFlip = ({ onComplete, currentPageLayout, currentPageText, currentPageE
           background: 'radial-gradient(circle, rgba(235, 235, 231, 1) 0%, rgba(255, 255, 255, 0.95) 40%, rgba(245, 245, 245, 0.9) 100%)',
           boxSizing: 'border-box'
         }}>
-          {/* Render children if provided, otherwise use the static content */}
+          {/* Render children with updated dimensions if provided */}
           {children ? (
-            children
+            renderChildrenWithUpdatedDimensions()
           ) : (
             <div className="min-h-screen flex items-center justify-center px-8">
               <div className="max-w-7xl w-full flex items-center justify-center gap-16 lg:gap-24">
@@ -91,11 +123,11 @@ const PageFlip = ({ onComplete, currentPageLayout, currentPageText, currentPageE
                   {getCurrentPageImage() && (
                     <img 
                       src={getCurrentPageImage()}
-                      width={700}
-                      height={700}
+                      width={imageDimensions ? imageDimensions.width : 700}
+                      height={imageDimensions ? imageDimensions.height : 700}
                       alt="Character"
                       style={{
-                        objectFit: 'cover',
+                        objectFit: 'contain',
                         borderRadius: '8px'
                       }}
                     />

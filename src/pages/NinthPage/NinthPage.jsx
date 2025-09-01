@@ -19,12 +19,12 @@ const NinthPage = ({ onBack, onNext }) => {
     // Image scribbles in first
     setTimeout(() => {
       setShowImage(true);
-    }, );
+    }, 500);
     
     // Text fades in
     setTimeout(() => {
       setShowText(true);
-    }, );
+    }, 1000);
     
     // Text floats up
     setTimeout(() => {
@@ -76,14 +76,18 @@ const NinthPage = ({ onBack, onNext }) => {
             
             {/* Left side - Image with quiz completed */}
             <div className="flex-1 flex items-center justify-end">
-              <div style={{ position: 'relative', width: '450px', height: '450px' }}>
+              <div style={{ 
+                position: 'relative', 
+                width: 'min(675px, 60vw)', 
+                height: 'min(675px, 60vw)' 
+              }}>
                 <img 
-                  src="./1.png"
+                  src="./noise1.png"
                   alt="Character"
                   style={{
-                    width: '450px',
-                    height: '450px',
-                    objectFit: 'cover'
+                    width: '100%',
+                    height: '100%',
+                    objectFit: 'contain'
                   }}
                 />
                 <div style={{
@@ -157,9 +161,9 @@ const NinthPage = ({ onBack, onNext }) => {
             {/* Left side - Image stays visible */}
             <div className="flex-1 flex items-center justify-end">
               <ScribbleReveal
-                src="./1.png"
-                width={450}
-                height={450}
+                src="./noise1.png"
+                width={675}
+                height={675}
                 duration={2}
                 strokeWidth={50}
                 strokeColor="white"

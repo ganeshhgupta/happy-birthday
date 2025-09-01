@@ -20,7 +20,7 @@ const EleventhPage = ({ onBack, onNext }) => {
     // Image scribbles in after text
     setTimeout(() => {
       setShowImage(true);
-    }, );
+    }, 1000);
     
     // Button appears last
     setTimeout(() => {
@@ -53,12 +53,12 @@ const EleventhPage = ({ onBack, onNext }) => {
             {/* Left side - Image */}
             <div className="flex-1 flex items-center justify-end">
               <img 
-                src="./1.png"
+                src="./khaww1.jpg"
                 alt="Character"
                 style={{
-                  width: 'min(450px, 40vw)',
-                  height: 'min(450px, 40vw)',
-                  objectFit: 'cover'
+                  width: 'min(675px, 60vw)',
+                  height: 'min(675px, 60vw)',
+                  objectFit: 'contain'
                 }}
               />
             </div>
@@ -120,8 +120,8 @@ const EleventhPage = ({ onBack, onNext }) => {
             <div className="flex-1 flex items-center justify-end">
               <ScribbleReveal
                 src="./khaww1.jpg"
-                width={450}
-                height={450}
+                width={675}
+                height={675}
                 duration={2}
                 strokeWidth={50}
                 strokeColor="white"

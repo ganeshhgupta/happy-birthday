@@ -20,7 +20,7 @@ const ThirteenthPage = ({ onBack, onNext }) => {
     // Image scribbles in after text
     setTimeout(() => {
       setShowImage(true);
-    }, );
+    }, 1000);
     
     // Button appears last
     setTimeout(() => {
@@ -53,12 +53,12 @@ const ThirteenthPage = ({ onBack, onNext }) => {
             {/* Left side - Image */}
             <div className="flex-1 flex items-center justify-end">
               <img 
-                src="./1.png"
+                src="./knife.png"
                 alt="Character"
                 style={{
-                  width: 'min(450px, 40vw)',
-                  height: 'min(450px, 40vw)',
-                  objectFit: 'cover'
+                  width: 'min(675px, 60vw)',
+                  height: 'min(675px, 60vw)',
+                  objectFit: 'contain'
                 }}
               />
             </div>
@@ -74,7 +74,7 @@ const ThirteenthPage = ({ onBack, onNext }) => {
                 maxWidth: '500px',
                 textAlign: 'left'
               }}>
-                Jo baat baat pe khatchh karke maarta hai
+                Jo baat baat pe khatchh 🔪 karke maarta hai
               </h1>
             </div>
           </div>
@@ -119,9 +119,9 @@ const ThirteenthPage = ({ onBack, onNext }) => {
             {/* Left side - Image with scribble reveal */}
             <div className="flex-1 flex items-center justify-end">
               <ScribbleReveal
-                src="./knife.jpg"
-                width={450}
-                height={450}
+                src="./knife.png"
+                width={675}
+                height={675}
                 duration={2}
                 strokeWidth={50}
                 strokeColor="white"
@@ -149,7 +149,7 @@ const ThirteenthPage = ({ onBack, onNext }) => {
                   textAlign: 'left'
                 }}
               >
-                Jo baat baat pe khatchh karke maarta hai
+                Jo baat baat pe khatchh 🔪 karke maarta hai
               </h1>
             </div>
           </div>

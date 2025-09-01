@@ -10,22 +10,41 @@ const FourteenthPage = ({ onBack, onNext }) => {
   const [showText, setShowText] = useState(false);
   const [showImage, setShowImage] = useState(false);
   const [showButton, setShowButton] = useState(false);
+  const [currentImageIndex, setCurrentImageIndex] = useState(0);
+
+  const images = [
+    './plate1.png',
+    './plate2.png'
+  ];
 
   useEffect(() => {
     // Text fades in first
     setTimeout(() => {
       setShowText(true);
-    }, );
+    }, 500);
     
     // Image scribbles in after text
     setTimeout(() => {
       setShowImage(true);
-    }, );
+    }, 1000);
     
     // Button appears last
     setTimeout(() => {
       setShowButton(true);
     }, 2000);
+
+    // Start image cycling after image appears
+    const imageTimer = setTimeout(() => {
+      const interval = setInterval(() => {
+        setCurrentImageIndex((prevIndex) => 
+          (prevIndex + 1) % images.length
+        );
+      }, 1000); // Change image every 1 second
+
+      return () => clearInterval(interval);
+    }, 1000); // Start cycling when image first appears
+
+    return () => clearTimeout(imageTimer);
   }, []);
 
   const handleBack = () => {
@@ -67,12 +86,12 @@ const FourteenthPage = ({ onBack, onNext }) => {
             {/* Right side - Image */}
             <div className="flex-1 flex items-center justify-start">
               <img 
-                src="./1.png"
+                src="./plate1.png"
                 alt="Character"
                 style={{
-                  width: 'min(450px, 40vw)',
-                  height: 'min(450px, 40vw)',
-                  objectFit: 'cover'
+                  width: 'min(675px, 60vw)',
+                  height: 'min(675px, 60vw)',
+                  objectFit: 'contain'
                 }}
               />
             </div>
@@ -136,19 +155,30 @@ const FourteenthPage = ({ onBack, onNext }) => {
               </h1>
             </div>
             
-            {/* Right side - Image with scribble reveal */}
+            {/* Right side - Cycling images with fade transitions */}
             <div className="flex-1 flex items-center justify-start">
-              <ScribbleReveal
-                src="./plate1.jpg"
-                width={450}
-                height={450}
-                duration={2}
-                strokeWidth={50}
-                strokeColor="white"
-                trigger={showImage}
-                delay={0}
-                alt="Character"
-              />
+              <div 
+                className={`relative transform transition-all duration-[2000ms] ease-out ${
+                  showImage
+                    ? 'translate-y-0 opacity-100'
+                    : 'translate-y-10 opacity-0'
+                }`}
+                style={{
+                  width: 'min(675px, 60vw)',
+                  height: 'min(675px, 60vw)',
+                }}
+              >
+                {images.map((src, index) => (
+                  <img
+                    key={src}
+                    src={src}
+                    alt="Plates"
+                    className={`absolute top-0 left-0 w-full h-full object-contain rounded-lg transition-opacity duration-500 ${
+                      index === currentImageIndex ? 'opacity-100' : 'opacity-0'
+                    }`}
+                  />
+                ))}
+              </div>
             </div>
           </div>
         </div>

@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect, useRef } from 'react';
 import BackButton from '../../components/BackButton/BackButton.jsx';
 import PageFlip from '../../components/PageFlip/PageFlip.jsx';
 import ScribbleReveal from '../../components/ScribbleReveal/ScribbleReveal.jsx';
@@ -10,25 +10,48 @@ const FifthPage = ({ onBack = () => {}, onNext = () => {} }) => {
   const [showButton, setShowButton] = useState(false);
   const [fadeOut, setFadeOut] = useState(false);
   const [startPageFlip, setStartPageFlip] = useState(false);
+  const [imageDimensions, setImageDimensions] = useState({ width: 480, height: 480 });
+  const imageRef = useRef(null);
 
   useEffect(() => {
     console.log('FifthPage mounted - starting with white page');
+    
+    // Load image and get its natural dimensions
+    const img = new Image();
+    img.onload = () => {
+      const aspectRatio = img.naturalWidth / img.naturalHeight;
+      const maxSize = 480;
+      
+      let width, height;
+      if (aspectRatio > 1) {
+        // Landscape: width is max, height is calculated
+        width = maxSize;
+        height = maxSize / aspectRatio;
+      } else {
+        // Portrait or square: height is max, width is calculated
+        height = maxSize;
+        width = maxSize * aspectRatio;
+      }
+      
+      setImageDimensions({ width: Math.round(width), height: Math.round(height) });
+    };
+    img.src = "./real1.png";
     
     // Phase 1: Image fades in after shorter delay
     setTimeout(() => {
       console.log('Phase 1: Image fading in');
       setPagePhase(1);
       setShowImage(true);
-    }, );
+    }, 500);
     
-    // Phase 2: Text fades in after image is visible (shorter delay since image animation is faster)
+    // Phase 2: Text fades in after image is visible
     setTimeout(() => {
       console.log('Phase 2: Text fading in');
       setPagePhase(2);
       setShowText(true);
     }, 1500);
     
-    // Phase 3: Button fades in after text (shorter delay)
+    // Phase 3: Button fades in after text
     setTimeout(() => {
       console.log('Phase 3: Button fading in');
       setPagePhase(3);
@@ -55,7 +78,10 @@ const FifthPage = ({ onBack = () => {}, onNext = () => {} }) => {
 
   if (startPageFlip) {
     return (
-      <PageFlip onComplete={handlePageFlipComplete}>
+      <PageFlip 
+        onComplete={handlePageFlipComplete}
+        imageDimensions={imageDimensions}
+      >
         {/* Pass the actual page content as children */}
         <div className="min-h-screen relative overflow-hidden" style={{
           background: 'radial-gradient(circle, rgba(235, 235, 231, 1) 0%, rgba(255, 255, 255, 0.95) 40%, rgba(245, 245, 245, 0.9) 100%)'
@@ -63,15 +89,16 @@ const FifthPage = ({ onBack = () => {}, onNext = () => {} }) => {
           
           <div className="relative z-10 min-h-screen flex flex-col items-center justify-center px-4">
             
-            {/* Image - static during flip */}
+            {/* Image - with natural dimensions maintained */}
             <div className="mb-12">
               <img 
-                src="./1.png"
+                ref={imageRef}
+                src="./real1.png"
                 alt="Today's about her"
                 style={{
-                  width: '480px',
-                  height: '480px',
-                  objectFit: 'cover'
+                  width: `${imageDimensions.width}px`,
+                  height: `${imageDimensions.height}px`,
+                  objectFit: 'contain' // Changed from 'cover' to maintain aspect ratio
                 }}
               />
             </div>
@@ -122,9 +149,9 @@ const FifthPage = ({ onBack = () => {}, onNext = () => {} }) => {
         {/* Image with scribble reveal animation using the component */}
         <div className="mb-12">
           <ScribbleReveal
-            src="./1.png"
-            width={480}
-            height={480}
+            src="./real1.png"
+            width={imageDimensions.width}
+            height={imageDimensions.height}
             duration={2.5}
             strokeWidth={45}
             strokeColor="white"
@@ -171,13 +198,6 @@ const FifthPage = ({ onBack = () => {}, onNext = () => {} }) => {
             <div className="absolute -inset-1 rounded-full bg-gray-300 opacity-0 group-hover:opacity-10 blur-xl transition-all duration-300"></div>
           </button>
         </div>
-      </div>
-
-      {/* Debug info */}
-      <div className="fixed bottom-4 left-4 bg-white/90 text-black p-2 rounded text-xs border">
-        PagePhase: {pagePhase} | Image: {showImage.toString()} | Text: {showText.toString()} | Button: {showButton.toString()}
-        <br />
-        StartPageFlip: {startPageFlip.toString()}
       </div>
     </div>
   );
