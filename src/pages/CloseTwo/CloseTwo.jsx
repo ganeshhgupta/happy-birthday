@@ -4,9 +4,76 @@ import BackButton from '../../components/BackButton/BackButton.jsx';
 
 const CloseTwo = ({ onBack, onNext }) => {
   const [textStep, setTextStep] = useState(0);
+  const [montageActive, setMontageActive] = useState(false);
   const [fadeOut, setFadeOut] = useState(false);
   const [videoLoaded, setVideoLoaded] = useState(false);
+  const [montageFiles, setMontageFiles] = useState([]);
+  const [currentMontageIndex, setCurrentMontageIndex] = useState(0);
+  const [activeMontageItems, setActiveMontageItems] = useState([]);
   const videoRef = useRef(null);
+
+  // Function to get alternating left/right positions
+  const getAlternatingPosition = (isLeft) => {
+    return {
+      top: 50, // Center vertically at 50%
+      left: isLeft ? 25 : 75, // Left side at 25%, right side at 75%
+    };
+  };
+
+  // Function to get consistent size while maintaining natural aspect ratio
+  const getConsistentSize = () => {
+    // Set a consistent height and let width adjust naturally
+    return {
+      height: 700, // Fixed height
+      // Width will be determined by natural aspect ratio
+    };
+  };
+
+  // Load montage files
+  useEffect(() => {
+    const loadMontageFiles = () => {
+      try {
+        // Your actual montage files
+        const files = [
+          'kintaro1.jpg',
+          'mcd1.jpg', 
+          'mcd2.mp4',
+          'mcd3.mp4',
+          'mcd4.mp4',
+          'mcd5.mp4',
+          'mcd6.mp4',
+          'mcd7.mp4',
+          'naruto1.jpg',
+          'naruto2.jpg',
+          'ss1.jpg',
+          'ss2.jpg'
+        ];
+        
+        // Shuffle array for random order
+        const shuffledFiles = [...files].sort(() => Math.random() - 0.5);
+        
+        const montageData = shuffledFiles.map((file, index) => {
+          const type = file.endsWith('.mp4') || file.endsWith('.webm') || file.endsWith('.mov') ? 'video' : 'image';
+          const isLeft = index % 2 === 0; // Alternate: even indices on left, odd on right
+          return {
+            src: `./montage/${file}`,
+            type: type,
+            isLeft: isLeft,
+            ...getConsistentSize(),
+            ...getAlternatingPosition(isLeft),
+          };
+        });
+        
+        setMontageFiles(montageData);
+        console.log('Montage files loaded:', montageData);
+      } catch (error) {
+        console.error('Error loading montage files:', error);
+        setMontageFiles([]); // Set empty array on error
+      }
+    };
+
+    loadMontageFiles();
+  }, []);
 
   useEffect(() => {
     // Start video when component mounts
@@ -14,28 +81,155 @@ const CloseTwo = ({ onBack, onNext }) => {
       videoRef.current.play().catch(console.error);
     }
 
-    // Text animation sequence with longer initial delay
+    // Calculate montage duration based on overlapping pattern
+    // First item starts immediately, subsequent items start every 2 seconds
+    // Each item lasts 5 seconds (4s visible + 1s fade out)
+    // So total duration = (number of files - 1) * 2000ms + 5000ms for the last item
+    const montageTotalDuration = montageFiles.length > 0 
+      ? (montageFiles.length - 1) * 2000 + 5000 
+      : 0;
+
+    console.log('Text animation starting, montage files:', montageFiles.length);
+
+    // Text animation sequence with montage timing
     const timers = [
       // Step 1: "Happy Birthday Anusha" appears after 6 second delay
-      setTimeout(() => setTextStep(1), 6000+4000),
+      setTimeout(() => {
+        console.log('Step 1: Happy Birthday appears');
+        setTextStep(1);
+      }, 6000 + 4000),
       
       // Step 2: "A" disappears, "Pyaara" appears with ":)" after 5 more seconds
-      setTimeout(() => setTextStep(2), 11000+6000),
+      setTimeout(() => {
+        console.log('Step 2: Name transformation');
+        setTextStep(2);
+      }, 11000 + 6000),
       
-      // Step 3: Fade out birthday text after 5 more seconds
-      setTimeout(() => setTextStep(3), 16000+6000),
+      // Step 3: Start fade out of birthday text
+      setTimeout(() => {
+        console.log('Step 3: Text starts fading');
+        setTextStep(3);
+      }, 19000 + 6000),
       
-      // Step 4: "Have a blessed life" appears
-      setTimeout(() => setTextStep(4), 18000+6000),
+      // Activate montage after text has faded out (1 second delay)
+      setTimeout(() => {
+        console.log('Montage activated');
+        setMontageActive(true);
+      }, 19000 + 6000 + 1000),
+      
+      // Step 4: "Have a blessed life" appears after montage completes
+      setTimeout(() => {
+        console.log('Step 4: Blessed life appears');
+        setTextStep(4);
+        setMontageActive(false);
+      }, 25000 + Math.max(montageTotalDuration, 10000) + 2000),
       
       // Step 5: Final fade out
-      setTimeout(() => setTextStep(5), 22000+8000),
+      setTimeout(() => {
+        console.log('Step 5: Final fade out');
+        setTextStep(5);
+      }, 25000 + Math.max(montageTotalDuration, 10000) + 10000),
     ];
+
+    // Montage timing - only if we have files
+    if (montageFiles.length > 0) {
+      setTimeout(() => {
+        console.log('Starting montage with', montageFiles.length, 'files');
+        startMontage();
+      }, 25000 + 1000); // Start 1 second after text fade begins
+    }
 
     return () => {
       timers.forEach(clearTimeout);
     };
-  }, []);
+  }, [montageFiles]);
+
+  const startMontage = () => {
+    if (!montageFiles || montageFiles.length === 0) {
+      console.log('No montage files to display');
+      return;
+    }
+
+    console.log('Starting montage with files:', montageFiles);
+    let index = 0;
+    
+    const showNextMontageItem = () => {
+      if (index >= montageFiles.length) {
+        console.log('Montage complete');
+        return;
+      }
+
+      const item = montageFiles[index];
+      const id = Date.now() + Math.random();
+      
+      console.log(`Showing montage item ${index + 1} of ${montageFiles.length} on ${item.isLeft ? 'LEFT' : 'RIGHT'} side`);
+      
+      // Add new montage item (don't clear existing ones for overlapping effect)
+      setActiveMontageItems(prev => [...prev, { ...item, id, opacity: 0 }]);
+      
+      // Fade in after a brief delay
+      setTimeout(() => {
+        setActiveMontageItems(prev => 
+          prev.map(activeItem => 
+            activeItem.id === id ? { ...activeItem, opacity: 0.75 } : activeItem
+          )
+        );
+      }, 100);
+      
+      if (item.type === 'video') {
+        // For videos: wait for the video to load and get its duration
+        const videoElement = document.createElement('video');
+        videoElement.src = item.src;
+        videoElement.addEventListener('loadedmetadata', () => {
+          const videoDuration = videoElement.duration * 1000; // Convert to milliseconds
+          const fadeOutStart = Math.max(videoDuration - 1000, videoDuration * 0.9); // Start fading 1s before end or at 90%
+          
+          console.log(`Video duration: ${videoDuration}ms, fade out starts at: ${fadeOutStart}ms`);
+          
+          // Start fade out near the end of the video
+          setTimeout(() => {
+            setActiveMontageItems(prev => 
+              prev.map(activeItem => 
+                activeItem.id === id ? { ...activeItem, opacity: 0 } : activeItem
+              )
+            );
+            
+            // Remove from DOM after fade out completes
+            setTimeout(() => {
+              setActiveMontageItems(prev => 
+                prev.filter(activeItem => activeItem.id !== id)
+              );
+            }, 1000);
+          }, fadeOutStart);
+        });
+      } else {
+        // For images: use the original 4-second timing
+        setTimeout(() => {
+          setActiveMontageItems(prev => 
+            prev.map(activeItem => 
+              activeItem.id === id ? { ...activeItem, opacity: 0 } : activeItem
+            )
+          );
+          
+          // Remove from DOM after fade out completes
+          setTimeout(() => {
+            setActiveMontageItems(prev => 
+              prev.filter(activeItem => activeItem.id !== id)
+            );
+          }, 1000);
+        }, 4000);
+      }
+      
+      index++;
+      
+      // Schedule next item to start halfway through current item (2 seconds)
+      if (index < montageFiles.length) {
+        setTimeout(showNextMontageItem, 2000);
+      }
+    };
+    
+    showNextMontageItem();
+  };
 
   const handleVideoLoad = () => {
     setVideoLoaded(true);
@@ -72,6 +266,50 @@ const CloseTwo = ({ onBack, onNext }) => {
 
       {/* Dark overlay for better text readability */}
       <div className="absolute inset-0 bg-black/25 transition-opacity duration-1000"></div>
+
+      {/* Montage Layer - only show when montageActive is true */}
+      {montageActive && activeMontageItems.length > 0 && (
+        <div className="absolute inset-0 z-5">
+          {activeMontageItems.map(item => (
+            <div
+              key={item.id}
+              className="absolute transition-opacity duration-1000"
+              style={{
+                top: `${item.top}%`,
+                left: `${item.left}%`,
+                height: `${item.height}px`,
+                opacity: item.opacity,
+                transform: 'translate(-50%, -50%)', // Center the item on its position
+              }}
+            >
+              {item.type === 'video' ? (
+                <video
+                  className="h-full w-auto object-cover rounded-lg shadow-2xl"
+                  autoPlay
+                  muted
+                  playsInline
+                  style={{
+                    filter: 'brightness(0.9) contrast(1.1)',
+                    boxShadow: '0 10px 30px rgba(0,0,0,0.5)',
+                  }}
+                >
+                  <source src={item.src} type="video/mp4" />
+                </video>
+              ) : (
+                <img
+                  src={item.src}
+                  alt="Montage"
+                  className="h-full w-auto object-cover rounded-lg shadow-2xl"
+                  style={{
+                    filter: 'brightness(0.9) contrast(1.1)',
+                    boxShadow: '0 10px 30px rgba(0,0,0,0.5)',
+                  }}
+                />
+              )}
+            </div>
+          ))}
+        </div>
+      )}
 
       {/* Content */}
       <div className={`relative z-10 min-h-screen flex items-center justify-center px-4 transition-opacity duration-1000 ${
