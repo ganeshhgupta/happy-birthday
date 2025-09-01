@@ -12,6 +12,8 @@ const CloseTwo = ({ onBack, onNext }) => {
   const [activeMontageItems, setActiveMontageItems] = useState([]);
   const [showOfficeText, setShowOfficeText] = useState(false);
   const [officeTextStep, setOfficeTextStep] = useState(0);
+  const [fadeToBlack, setFadeToBlack] = useState(false);
+  const [showEnding, setShowEnding] = useState(false);
   const videoRef = useRef(null);
 
   // Function to get alternating left/right positions
@@ -130,11 +132,23 @@ const CloseTwo = ({ onBack, onNext }) => {
         setShowOfficeText(false); // Ensure office text is hidden
       }, 25000 + Math.max(montageTotalDuration, 10000) + 12000), // Extra 10 seconds for office text sequence
       
-      // Step 5: Final fade out
+      // Step 5: Final fade out of "Have a blessed life"
       setTimeout(() => {
         console.log('Step 5: Final fade out');
         setTextStep(5);
       }, 25000 + Math.max(montageTotalDuration, 10000) + 22000), // Adjusted for office text timing
+      
+      // Step 6: Start fade to black after "Have a blessed life" disappears
+      setTimeout(() => {
+        console.log('Step 6: Starting fade to black');
+        setFadeToBlack(true);
+      }, 25000 + Math.max(montageTotalDuration, 10000) + 25000), // 3 seconds after blessed life fades
+      
+      // Step 7: Show ending elements after fade to black completes
+      setTimeout(() => {
+        console.log('Step 7: Showing ending elements');
+        setShowEnding(true);
+      }, 25000 + Math.max(montageTotalDuration, 10000) + 30000), // 5 seconds after fade to black starts
     ];
 
     // Montage timing - only if we have files
@@ -278,6 +292,11 @@ const CloseTwo = ({ onBack, onNext }) => {
     onBack();
   };
 
+  const handleRewatch = () => {
+    // Navigate back to landing page
+    onNext(); // This will call handleCloseTwoNext in App.js which resets to landing
+  };
+
   return (
     <div className="min-h-screen relative overflow-hidden">
       <BackButton onClick={handleBack} theme="dark" />
@@ -305,6 +324,13 @@ const CloseTwo = ({ onBack, onNext }) => {
 
       {/* Dark overlay for better text readability */}
       <div className="absolute inset-0 bg-black/25 transition-opacity duration-1000"></div>
+
+      {/* Fade to Black Overlay */}
+      <div 
+        className={`absolute inset-0 bg-black z-20 transition-opacity duration-[5000ms] ${
+          fadeToBlack ? 'opacity-100' : 'opacity-0 pointer-events-none'
+        }`}
+      ></div>
 
       {/* Montage Layer - only show when montageActive is true */}
       {montageActive && activeMontageItems.length > 0 && (
@@ -371,7 +397,7 @@ const CloseTwo = ({ onBack, onNext }) => {
                    textShadow: '0 0 15px rgba(255, 255, 255, 0.8), 0 0 30px rgba(255, 255, 255, 0.6)',
                    WebkitTextStroke: '0.5px rgba(255, 255, 255, 0.2)'
                  }}>
-                Whatever someone you become and wherever you are in the world, you'd be doing wonders.
+                Whatever someone you become and wherever you'd be in the world, you'd be doing wonders.
               </p>
             </div>
             
@@ -495,6 +521,40 @@ const CloseTwo = ({ onBack, onNext }) => {
             </h2>
           </div>
 
+        </div>
+      </div>
+
+      {/* Ending Elements - Show after fade to black */}
+      <div className="absolute inset-0 z-30 flex flex-col items-center justify-center px-4">
+        {/* Rewatch Button */}
+        <div
+          className={`mb-8 transform transition-all duration-[4000ms] ease-out ${
+            showEnding ? 'translate-y-0 opacity-100 scale-100' : 'translate-y-10 opacity-0 scale-95'
+          }`}
+        >
+          <button
+            onClick={handleRewatch}
+            className="group relative px-8 py-4 bg-gray-800 hover:bg-gray-700 text-white font-bold rounded-full shadow-lg transition-all duration-300 hover:scale-105 active:scale-95 border border-gray-600 hover:border-gray-400 hover:shadow-white/40 hover:shadow-xl"
+          >
+            <span className="relative z-10 flex items-center gap-3 text-lg md:text-xl tracking-wider font-mono cute-font">
+              Rewatch
+            </span>
+            
+            {/* Enhanced hover glow effect */}
+            <div className="absolute inset-0 rounded-full bg-white opacity-0 group-hover:opacity-20 blur-lg transition-all duration-300"></div>
+            <div className="absolute -inset-1 rounded-full bg-white opacity-0 group-hover:opacity-10 blur-xl transition-all duration-300"></div>
+          </button>
+        </div>
+
+        {/* Instructions Text */}
+        <div
+          className={`text-center transform transition-all duration-[4000ms] ease-out delay-1500 ${
+            showEnding ? 'translate-y-0 opacity-100' : 'translate-y-10 opacity-0'
+          }`}
+        >
+          <p className="text-sm md:text-base text-gray-400 font-mono cute-font">
+            for skipping pages: press '1' for previous and '2' for next
+          </p>
         </div>
       </div>
     </div>
