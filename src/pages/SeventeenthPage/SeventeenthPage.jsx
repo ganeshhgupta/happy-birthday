@@ -79,7 +79,7 @@ const SeventeenthPage = ({ onBack, onNext }) => {
             </div>
           </div>
           
-          {/* Button positioned at bottom center */}
+          {/* Button positioned at bottom center - FIXED: Added onClick handler */}
           <div style={{
             position: 'absolute',
             bottom: '60px',
@@ -87,14 +87,18 @@ const SeventeenthPage = ({ onBack, onNext }) => {
             transform: 'translateX(-50%)'
           }}>
             <button
-              className="group relative px-12 py-4 bg-gray-100 text-gray-800 font-semibold rounded-full shadow-lg border border-gray-300"
+              onClick={handlePageFlipComplete}
+              className="group relative px-12 py-4 bg-gray-100 hover:bg-gray-200 text-gray-800 font-semibold rounded-full shadow-lg transition-all duration-300 hover:scale-105 active:scale-95 border border-gray-300 hover:border-gray-400"
               style={{ 
                 fontFamily: "Zen Loop, cursive", 
                 fontSize: '1.5rem',
                 fontWeight: 400
               }}
             >
-              Grr
+              <span className="relative z-10">Grr</span>
+              
+              {/* Hover glow effect */}
+              <div className="absolute inset-0 rounded-full bg-gray-300 opacity-0 group-hover:opacity-20 blur-lg transition-all duration-300"></div>
             </button>
           </div>
         </div>
